@@ -159,16 +159,21 @@ export class Connection {
 			this.alert("Der Raum existiert nicht!");
 			return;
 		}
-		const room = this.server.rooms.get(msg.roomToJoin);
-		if (room.password !== msg.passwordOfRoom) {
-			this.alert(`Falsches Passwort für den Raum ${room.name}!`);
-			return;
+		else {
+			const room = this.server.rooms.get(msg.roomToJoin);
+			if (room.password !== msg.passwordOfRoom) {
+				this.alert(`Falsches Passwort für den Raum ${room.name}!`);
+				return;
+			}
+			else {
+			this.room = room;
+			this.room.clients.set(this.uuid, this);
+			this.redirect("room");
+			this.sendLoginInfo();
+			console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);
 		}
-		this.room = room;
-		this.room.clients.set(this.uuid, this);
-		this.redirect("room");
-		this.sendLoginInfo();
-		console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);
+		
+		}
 	}
 
 	/**

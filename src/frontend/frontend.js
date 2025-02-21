@@ -85,15 +85,10 @@ websocket.onmessage = (e) => {
 			clientID = msg.id;
 			setUsername();
 			break;
-		case "username":
-			text = `User <em>${msg.name}</em> signed in at ${timeStr}<br>`;
-			break;
-		//Falls die Nachricht vom typ message ist, wie folgendes ausgegeben:
 		case "message":
 			output.insertAdjacentHTML("afterbegin", `(${timeStr}) ${msg.userName}: ${msg.text} <br>`);
 			//text = `(${timeStr}) ${msg.id} : ${msg.text} <br>`;
 			break;
-		//Falls die Nachricht eine Weiterleitung ist:
 		case "redirect":
 			document.getElementById(page).style.display = "none";
 			page = msg.page;
