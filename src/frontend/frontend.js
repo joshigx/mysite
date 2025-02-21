@@ -38,6 +38,7 @@ function createUser() {
 
 
 
+
 function joinRoom() {
 	send({
 		type: "login",
@@ -63,19 +64,6 @@ function chatAll() {
 
 websocket.onopen = (e) => {
 	sendServerLog("Vom client aus: CONNECTED");
-	//Sendet die Nachricht, dass und welche Seite geladen ist, 
-	// damit dann entsprechender Code ausgeführt werden kann.
-	if ((sessionStorage.getItem("clientId") === null) && (!(window.location.pathname == "/login"))) {
-		//windows.location.href = "/login";
-		sendServerLog("Client hat sich ja noch gar nicht angemeldet. Wird an Login-Seite weitergeleitet");
-		window.location.href = "/login";
-	} else {
-		send({
-			type: "pageLoaded",
-			origin: window.location.pathname
-		})
-		console.log(JSON.stringify(msg));
-	}
 };
 
 websocket.onclose = (e) => {
