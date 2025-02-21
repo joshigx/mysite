@@ -1,17 +1,49 @@
+const wsUri = `ws://${window.location.host}/`;
+const websocket = new WebSocket(wsUri);
+
+function find(obj){
+
+	const found = document.getElementById(obj);
+	return found;
+}
+
+
+
+let page = "login";
 let output = null;
+
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
+
+btn = {
+	createUser: find('create-user'),
+	createRoom: find('create-room'),
+	joinRoom: find('join-room'),
+	submit: find('submit'),
+};
+	const action = 'click';
+	btn.createUser.addEventListener(action, createUser);
+	btn.createRoom.addEventListener(action, createRoom);
+	btn.joinRoom.addEventListener(action, joinRoom);
+	btn.submit.addEventListener(action, submit);
+
+};
+
+
 
 addEventListener("load", () => {
 	output = document.querySelector("#output");
 });
-
-const wsUri = `ws://${window.location.host}/`;
-const websocket = new WebSocket(wsUri);
-
-let page = "login";
-
 function send(msg)
 {
 	websocket.send(JSON.stringify(msg))
+}
+function createUser() {
+	send({
+		type: "createUser",
+		id: document.getElementById("user-name").value,
+	})
 }
 
 function createRoom() {
@@ -23,22 +55,6 @@ function createRoom() {
 	console.log("Erstellung eines Raumes beim Server angefragt");
 }
 
-function sendServerLog(log) {
-	send({
-		type: "log",
-		log: log,
-	})
-}
-function createUser() {
-	send({
-		type: "createUser",
-		id: document.getElementById("user-name").value,
-	})
-}
-
-
-
-
 function joinRoom() {
 	send({
 		type: "login",
@@ -49,16 +65,21 @@ function joinRoom() {
 
 }
 
-function chatAll() {
-	//Legt fest, welche Infos in der Nachricht msg drinnen sind
-	//Typ, Text, ID(=Nutzername), Zeit
+function sendServerLog(log) {
+	send({
+		type: "log",
+		log: log,
+	})
+}
+
+function submit() {
 	send({
 		type: "message",
 		text: document.getElementById("input").value,
-		date: Date.now(),
 	})
 
 	document.getElementById("input").value = "";
+	//Weiterleitung Serverseitig einbauen
 }
 
 

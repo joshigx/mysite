@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 
 <head>
-	<script src="/frontend.js"></script>
-	<link rel="stylesheet" href="/style.css">
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Chat</title>
+  
+  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat</title>
 </head>
 
 <body>
-	<main>
-		<section id="login">
-			<h1>Chat-Raum</h1>
-			<p>Suche dir einen Nutzernamen und eine Raum-Nr aus</p>
-			<input id="user-name" type="text" placeholder="Nutzername">
-			<br>
-			<br>
-			<button onclick="createUser()">Weiter</button>
-		</section>
+  <main>
+    <section id="login">
+      <h1>Chat-Raum</h1>
+      <p>Suche dir einen Nutzernamen und eine Raum-Nr aus</p>
+      <input id="user-name" type="text" placeholder="Nutzername" />
+      <br />
+      <br />
+      <button id="create-user">Weiter</button>
+    </section>
 
-		<section id="select">
-			<input id="room-id" type="text" placeholder="Raum-Nr.">
-			<br>
-			<br>
-			<input id="room-password" type="text" placeholder="Passwort des Raumes">
-			<br>
-			<br>
-			<button onclick="joinRoom()">Beitreten</button>
-			<br>
-			<br>
-			<br>
-			<input id="create-room-name" type"text" placeholder="Raum Name eingeben">
-			<br>
-			<br>
-			<input id="create-room-password" type="text" placeholder="Passwort eingeben">
-			<br>
-			<br>
-			<button onclick="createRoom()">Raum erstellen</button>
-			<p></p>
-		</section>
+    <section id="select">
+      <input id="room-id" type="text" placeholder="Raum-Nr." />
+      <br />
+      <br />
+      <input id="room-password" type="text" placeholder="Passwort des Raumes" />
+      <br />
+      <br />
+      <button id="join-room">Beitreten</button>
+      <br />
+      <br />
+      <br />
+      <input id="create-room-name" type"text" placeholder="Raum Name eingeben">
+      <br />
+      <br />
+      <input
+        id="create-room-password"
+        type="text"
+        placeholder="Passwort eingeben"
+      />
+      <br />
+      <br />
+      <button id="create-room">Raum erstellen</button>
+      <p></p>
+    </section>
 
-		<section id="room">
-			<h2>WebSocket Test</h2>
-			<p>Sends a message to the server</p>
+    <section id="room">
+      <h2>WebSocket Test</h2>
+      <p>Sends a message to the server</p>
 
-			<p>Nachricht:</p>
-			<input id="input" type="text" />
+      <p>Nachricht:</p>
+      <input id="input" type="text" />
 
-			<br />
+      <br />
 
-			<button onclick="chatAll()">Senden</button>
+      <button id="submit">Abschicken</button>
 
-			<br />
-			<br />
+      <br />
+      <br />
 
-			<p id="show-user-name">User-Name: </p>
-			<p id="show-room-id">aktueller Raum: </p>
+      <p id="show-user-name">User-Name:</p>
+      <p id="show-room-id">aktueller Raum:</p>
 
-			<br />
-			<br />
-			
-			<div id="output"></div>
-		</section>
-	</main>
+      <br />
+      <br />
 
-	
+      <div id="output"></div>
 
+      <section id="waiting"></section>
+
+      <section id="resolve"></section>
+    </section>
+  </main>
+
+<script src="./frontend.js"></script>
 
 </body>
