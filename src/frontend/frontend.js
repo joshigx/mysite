@@ -1,0 +1,163 @@
+let output = null;
+
+addEventListener("load", () => {
+	output = document.querySelector("#output");
+});
+
+const wsUri = `ws://${window.location.host}/`;
+const websocket = new WebSocket(wsUri);
+
+let page = "login";
+
+function createRoom() {
+	const msg = {
+		type: "createRoom",
+		nameRoomToCreate: document.getElementById("create-room-name").value,
+		passwordRoomToCreate: document.getElementById("create-room-password").value
+	}
+
+	websocket.send(JSON.stringify(msg));
+	console.log("Erstellung eines Raumes beim Server angefragt");
+}
+
+function sendServerLog(log) {
+
+	const msg = {
+		type: "log",
+		log: log,
+	}
+
+
+	websocket.send(JSON.stringify(msg));
+
+}
+function createUser() {
+	const msg = {
+		type: "createUser",
+		id: document.getElementById("user-name").value,
+	};
+
+	websocket.send(JSON.stringify(msg));
+	console.log("Neuer Benutzer angelegt");
+}
+
+function writeToScreen(message) {
+	if (output !== null) {
+		output.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
+	} else {
+		console.log(message);
+	}
+}
+
+
+function sendMessage(message) {
+	//writeToScreen(`SENT: ${message}`);
+	websocket.send(message);
+}
+
+//Diese Funktion muss neu überarbietet werden und mit Passwortabfrage versehen werden
+function joinRoom() {
+	const msg = {
+		type: "login",
+		roomToJoin: document.getElementById("room-id").value,
+		passwordOfRoom: document.getElementById("room-password").value,
+	};
+
+	websocket.send(JSON.stringify(msg));
+	console.log("Raum-Beitrittsanfrage an Server gesendet.");
+
+}
+
+function chatAll() {
+	//Legt fest, welche Infos in der Nachricht msg drinnen sind
+	//Typ, Text, ID(=Nutzername), Zeit
+	const msg = {
+		type: "message",
+		text: document.getElementById("input").value,
+		date: Date.now(),
+	};
+
+	websocket.send(JSON.stringify(msg));
+	document.getElementById("input").value = "";
+}
+
+
+
+
+websocket.onopen = (e) => {
+	sendServerLog("Vom client aus: CONNECTED");
+	//Sendet die Nachricht, dass und welche Seite geladen ist, 
+	// damit dann entsprechender Code ausgeführt werden kann.
+	if ((sessionStorage.getItem("clientId") === null) && (!(window.location.pathname == "/login"))) {
+		//windows.location.href = "/login";
+		sendServerLog("Client hat sich ja noch gar nicht angemeldet. Wird an Login-Seite weitergeleitet");
+		window.location.href = "/login";
+	} else {
+		const msg = {
+			type: "pageLoaded",
+			origin: window.location.pathname
+		};
+		websocket.send(JSON.stringify(msg));
+		console.log(JSON.stringify(msg));
+	}
+};
+
+websocket.onclose = (e) => {
+	writeToScreen("DISCONNECTED");
+};
+
+
+//Hier steht drin, was der Client macht, wenn er vom Server eine Nachricht empfängt
+websocket.onmessage = (e) => {
+	console.log(e.data);
+	let text = "";
+	const msg = JSON.parse(e.data);
+	const time = new Date(msg.date);
+	const timeStr = time.toLocaleTimeString();
+
+
+	//Überprüft, welches "Protokoll" auf die vom Server eingehenden Nachrichten anzuwenden ist
+	switch (msg.type) {
+		case "id":
+			clientID = msg.id;
+			setUsername();
+			break;
+		case "username":
+			text = `User <em>${msg.name}</em> signed in at ${timeStr}<br>`;
+			break;
+		//Falls die Nachricht vom typ message ist, wie folgendes ausgegeben:
+		case "message":
+			output.insertAdjacentHTML("afterbegin", `(${timeStr}) ${msg.userName}: ${msg.text} <br>`);
+			//text = `(${timeStr}) ${msg.id} : ${msg.text} <br>`;
+			break;
+		//Falls die Nachricht eine Weiterleitung ist:
+		case "redirect":
+			document.getElementById(page).style.display = "none";
+			page = msg.page;
+			document.getElementById(page).style.display = "block";
+			break;
+		case "reject-username":
+			text = `Your username has been set to <em>${msg.name}</em> because the name you chose is in use.<br>`;
+			break;
+		case "user-list":
+			document.getElementById("user-list-box").innerText = msg.users.join("\n");
+			break;
+		case "login-info":
+			console.log("Login-Info bekommen" + msg.name + msg.raum);
+			//Hiermit werden die Login-Information angezeigt
+			document.getElementById("show-user-name").innerHTML += msg.name;
+			document.getElementById("show-room-id").innerHTML += msg.raum;
+			break;
+		case "alert":
+			alert(msg.alert);
+
+			break;
+
+		default:
+			text = `Unknown message type: ${msg.type}`;
+	}
+};
+
+websocket.onerror = (e) => {
+	writeToScreen(`ERROR: ${e.data}`);
+};
