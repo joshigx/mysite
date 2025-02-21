@@ -9,61 +9,41 @@ const websocket = new WebSocket(wsUri);
 
 let page = "login";
 
+function send(msg)
+{
+	websocket.send(JSON.stringify(msg))
+}
+
 function createRoom() {
-	const msg = {
+	send({
 		type: "createRoom",
 		nameRoomToCreate: document.getElementById("create-room-name").value,
 		passwordRoomToCreate: document.getElementById("create-room-password").value
-	}
-
-	websocket.send(JSON.stringify(msg));
+	})
 	console.log("Erstellung eines Raumes beim Server angefragt");
 }
 
 function sendServerLog(log) {
-
-	const msg = {
+	send({
 		type: "log",
 		log: log,
-	}
-
-
-	websocket.send(JSON.stringify(msg));
-
+	})
 }
 function createUser() {
-	const msg = {
+	send({
 		type: "createUser",
 		id: document.getElementById("user-name").value,
-	};
-
-	websocket.send(JSON.stringify(msg));
-	console.log("Neuer Benutzer angelegt");
-}
-
-function writeToScreen(message) {
-	if (output !== null) {
-		output.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
-	} else {
-		console.log(message);
-	}
+	})
 }
 
 
-function sendMessage(message) {
-	//writeToScreen(`SENT: ${message}`);
-	websocket.send(message);
-}
 
-//Diese Funktion muss neu überarbietet werden und mit Passwortabfrage versehen werden
 function joinRoom() {
-	const msg = {
+	send({
 		type: "login",
 		roomToJoin: document.getElementById("room-id").value,
 		passwordOfRoom: document.getElementById("room-password").value,
-	};
-
-	websocket.send(JSON.stringify(msg));
+	})
 	console.log("Raum-Beitrittsanfrage an Server gesendet.");
 
 }
@@ -71,17 +51,14 @@ function joinRoom() {
 function chatAll() {
 	//Legt fest, welche Infos in der Nachricht msg drinnen sind
 	//Typ, Text, ID(=Nutzername), Zeit
-	const msg = {
+	send({
 		type: "message",
 		text: document.getElementById("input").value,
 		date: Date.now(),
-	};
+	})
 
-	websocket.send(JSON.stringify(msg));
 	document.getElementById("input").value = "";
 }
-
-
 
 
 websocket.onopen = (e) => {
@@ -93,11 +70,10 @@ websocket.onopen = (e) => {
 		sendServerLog("Client hat sich ja noch gar nicht angemeldet. Wird an Login-Seite weitergeleitet");
 		window.location.href = "/login";
 	} else {
-		const msg = {
+		send({
 			type: "pageLoaded",
 			origin: window.location.pathname
-		};
-		websocket.send(JSON.stringify(msg));
+		})
 		console.log(JSON.stringify(msg));
 	}
 };
@@ -105,7 +81,6 @@ websocket.onopen = (e) => {
 websocket.onclose = (e) => {
 	writeToScreen("DISCONNECTED");
 };
-
 
 //Hier steht drin, was der Client macht, wenn er vom Server eine Nachricht empfängt
 websocket.onmessage = (e) => {
