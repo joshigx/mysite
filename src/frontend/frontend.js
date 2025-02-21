@@ -97,9 +97,6 @@ websocket.onmessage = (e) => {
 		case "reject-username":
 			text = `Your username has been set to <em>${msg.name}</em> because the name you chose is in use.<br>`;
 			break;
-		case "user-list":
-			document.getElementById("user-list-box").innerText = msg.users.join("\n");
-			break;
 		case "login-info":
 			console.log("Login-Info bekommen" + msg.name + msg.raum);
 			//Hiermit werden die Login-Information angezeigt

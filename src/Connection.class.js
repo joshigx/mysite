@@ -172,7 +172,7 @@ export class Connection {
 			this.sendLoginInfo();
 			console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);
 		}
-		
+
 		}
 	}
 
@@ -185,6 +185,7 @@ export class Connection {
 			this.redirect("login");
 			return;
 		}
+		
 		msg.userName = this.username;
 		this.room.broadcast(msg);
 	}
