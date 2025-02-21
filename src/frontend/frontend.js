@@ -1,28 +1,20 @@
 const wsUri = `ws://${window.location.host}/`;
 const websocket = new WebSocket(wsUri);
 
-function find(obj){
-
-	const found = document.getElementById(obj);
-	return found;
-}
-
-
-
 let page = "login";
 let output = null;
 
 document.addEventListener('DOMContentLoaded', init);
-
 function init() {
 
+	
 	//verknüoft die buttons aus dem html mit den funktionen in diesem dokument
-const btn = {
-	createUser: find('create-user'),
-	createRoom: find('create-room'),
-	joinRoom: find('join-room'),
-	submit: find('submit'),
-};
+	const btn = {
+		createUser: find('create-user'),
+		createRoom: find('create-room'),
+		joinRoom: find('join-room'),
+		submit: find('submit'),
+	};
 	const action = 'click';
 	btn.createUser.addEventListener(action, createUser);
 	btn.createRoom.addEventListener(action, createRoom);
@@ -36,36 +28,15 @@ const btn = {
 addEventListener("load", () => {
 	output = document.querySelector("#output");
 });
-function send(msg)
-{
+
+//Hkilfsfunktionen
+function send(msg) {
 	websocket.send(JSON.stringify(msg))
 }
-function createUser() {
-	send({
-		type: "createUser",
-		id: document.getElementById("user-name").value,
-	})
-}
-
-function createRoom() {
-	send({
-		type: "createRoom",
-		nameRoomToCreate: document.getElementById("create-room-name").value,
-		passwordRoomToCreate: document.getElementById("create-room-password").value
-	})
-	console.log("Erstellung eines Raumes beim Server angefragt");
-}
-
-function joinRoom() {
-	send({
-		type: "login",
-		roomToJoin: document.getElementById("room-id").value,
-		passwordOfRoom: document.getElementById("room-password").value,
-	})
-	console.log("Raum-Beitrittsanfrage an Server gesendet.");
-
-}
-
+function find(obj) {
+		const found = document.getElementById(obj);
+		return found;
+	}
 function sendServerLog(log) {
 	send({
 		type: "log",
@@ -73,16 +44,47 @@ function sendServerLog(log) {
 	})
 }
 
+//Button-Funktionen	
+function createUser() {
+	send({
+		type: "createUser",
+		id: find("user-name").value,
+	})
+}
+
+function createRoom() {
+	send({
+		type: "createRoom",
+		nameRoomToCreate: find("create-room-name").value,
+		passwordRoomToCreate: find("create-room-password").value
+	})
+	console.log("Erstellung eines Raumes beim Server angefragt");
+}
+
+function joinRoom() {
+	send({
+		type: "login",
+		roomToJoin: find("room-id").value,
+		passwordOfRoom: find("room-password").value,
+	})
+	console.log("Raum-Beitrittsanfrage an Server gesendet.");
+
+}
+
+
+
 function submit() {
 	send({
-		type: "message",
-		text: document.getElementById("input").value,
+		type: "submit",
+		text: find("input").value,
 	})
 
 	document.getElementById("input").value = "";
 	//Weiterleitung Serverseitig einbauen
 }
 
+
+//Socket-Handler
 
 websocket.onopen = (e) => {
 	sendServerLog("Vom client aus: CONNECTED");
