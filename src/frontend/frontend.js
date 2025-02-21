@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', init);
 
 function init() {
 
-btn = {
+	//verknüoft die buttons aus dem html mit den funktionen in diesem dokument
+const btn = {
 	createUser: find('create-user'),
 	createRoom: find('create-room'),
 	joinRoom: find('join-room'),
