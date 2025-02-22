@@ -5,6 +5,12 @@ let page = "login";
 let output = null;
 
 document.addEventListener('DOMContentLoaded', init);
+addEventListener("load", () => {
+	output = document.querySelector("#output");
+});
+
+
+//Initialfunktion
 function init() {
 
 	
@@ -22,12 +28,6 @@ function init() {
 	btn.submit.addEventListener(action, submit);
 
 };
-
-
-
-addEventListener("load", () => {
-	output = document.querySelector("#output");
-});
 
 //Hkilfsfunktionen
 function send(msg) {
@@ -71,8 +71,6 @@ function joinRoom() {
 
 }
 
-
-
 function submit() {
 	send({
 		type: "submit",
@@ -82,7 +80,6 @@ function submit() {
 	document.getElementById("input").value = "";
 	//Weiterleitung Serverseitig einbauen
 }
-
 
 //Socket-Handler
 
@@ -112,7 +109,7 @@ websocket.onmessage = (e) => {
 		case "message":
 			output.insertAdjacentHTML("afterbegin", `(${timeStr}) ${msg.userName}: ${msg.text} <br>`);
 			//text = `(${timeStr}) ${msg.id} : ${msg.text} <br>`;
-			break;
+			break;c
 		case "redirect":
 			document.getElementById(page).style.display = "none";
 			page = msg.page;
