@@ -128,6 +128,10 @@ websocket.onmessage = (e) => {
 			alert(msg.alert);
 
 			break;
+		case "show-answers":
+			find("all-answers").innerHTML += msg.answers;
+
+			break;
 
 		default:
 			text = `Unknown message type: ${msg.type}`;

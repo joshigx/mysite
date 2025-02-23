@@ -1,10 +1,16 @@
 import { Room } from "./Room.class.js";
 
+
+
+
 export class Connection {
 	/**
 	 * @param {Socket} socket 
 	 * @param {Server} server 
 	 */
+
+	static allAnswers = [];
+
 	constructor(socket, server) {
 		this.socket = socket;
 		this.server = server;
@@ -14,6 +20,15 @@ export class Connection {
 		this.socket.addEventListener("close", this.close.bind(this));
 		this.socket.addEventListener("error", this.error.bind(this));
 	}
+
+
+static addAnswer(answer) {
+	Connection.allAnswers.push(answer)
+}
+
+static getAnswers () {
+	return Connection.allAnswers;
+} 
 
 	/**
 	 * @param {Event} e 
@@ -31,6 +46,9 @@ export class Connection {
 					break;
 				case "message":
 					this.handleMessage(msg);
+					break;
+				case "submit":
+					this.handleSubmit(msg);
 					break;
 				case "createUser":
 					this.handleCreateUser(msg);
@@ -104,6 +122,18 @@ export class Connection {
 		this.send(userInfo);
 	}
 
+
+	waitForCondition(checkFunction, interval = 100) {
+		return new Promise(resolve => {
+			let check = setInterval(() => {
+				if (checkFunction()) {
+					clearInterval(check);
+					resolve();
+				}
+			}, interval);
+		});
+	}
+
 	/**
 	 * Spezifische Nachrichten Handler
 	 */
@@ -129,6 +159,7 @@ export class Connection {
 		console.log("Raumerstellungsanfrage erhalten");
 		const name = msg.nameRoomToCreate;
 		const password = msg.passwordRoomToCreate;
+		const admin = this;
 		//Prüft ob es der Raum bereits existiert: Dann Meldung geben und Raum nicht erstellen
 		if (this.server.rooms.has(name)) {
 			this.socket.send(msg);
@@ -136,13 +167,14 @@ export class Connection {
 			this.alert("Raum existiert bereits");
 		} else {
 			// Erstelle eine neue Instanz der Raum Klasse mit dem Namen und dem Passwort des Raumes
-			const room = new Room(name, password);
+			const room = new Room(name, password, admin);
 			//Erstellt einen Eintrag in der Map rooms. key: Raumname, Value: Raum Objekt Instanz
 			this.server.rooms.set(name, room);
 
 			// Setzt den aktuelle Raum des zu erstellenden Nutzers auf seinen erstellten Raum
 			this.room = room;
-			this.room.clients.set(this.uuid, this);
+			this.room.clients.set(this.uuid, this)
+			this.room.showResults();
 
 			this.redirect("room");
 			this.sendLoginInfo();
@@ -166,11 +198,19 @@ export class Connection {
 				return;
 			}
 			else {
+
+				if (this.room.open === false) {
+
+					this.alert("Der Raum ist bereits gerade in einer Sitzung und nicht mehr offen");
+				}
+				
+				
+				else {
 			this.room = room;
 			this.room.clients.set(this.uuid, this);
 			this.redirect("room");
 			this.sendLoginInfo();
-			console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);
+			console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);}
 		}
 
 		}
@@ -193,7 +233,39 @@ export class Connection {
 
 
 
+	handleSubmit(msg) {
 
+		const answer = msg.text;
+		this.redirect("waiting");
+		this.room.allAnswers.push(answer);
+		
+		//this.sendStatus = true;
+		
+		// const conditionFunction = () => {
+		// 	return Array.from(this.room.clients.values()).every(client => client.sendStatus === true);
+ 
+		// }
+
+		// // Prüfen, ob alle Clients bereit sind
+		// const waitForAllClients = async () => {
+		// 	console.log("Warte, bis alle Clients sendStatus = true haben...");
+		// 	await this.waitForCondition(conditionFunction);
+		// 	resolve()
+		// };
+
+
+		// 	function resolve () {
+		// 		this.redirect("resolve");
+		// 	}
+
+
+
+
+		// waitForAllClients();
+
+
+		return;
+	}
 
 
 
