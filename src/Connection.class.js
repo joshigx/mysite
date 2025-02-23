@@ -115,6 +115,15 @@ export class Connection {
 	}
 
 
+
+	usernameExists(name, map) {
+		for (const client of map.values()) {
+			if (client.username === name) {
+				return true;
+			}
+		}
+		return false;
+	}
 	waitForCondition(checkFunction, interval = 100) {
 		return new Promise(resolve => {
 			let check = setInterval(() => {
@@ -135,7 +144,9 @@ export class Connection {
 	 */
 	handleCreateUser(msg) {
 
-		if (msg.id === ) 
+		if (!this.usernameExists(msg.id, this.server.clients)) 
+
+		
 		{
 			this.username = msg.id;
 		console.log(`Neuer Log-In: ${this.username}`);
