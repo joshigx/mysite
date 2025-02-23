@@ -11,9 +11,15 @@ addEventListener("load", () => {
 
 
 //Initialfunktion
+
+function connect (button, fnctn) {
+	find(button).addEventListener('click', fnctn)
+}
+
+
 function init() {
 
-	
+
 	//verknüoft die buttons aus dem html mit den funktionen in diesem dokument
 	const btn = {
 		createUser: find('create-user'),
@@ -26,6 +32,7 @@ function init() {
 	btn.createRoom.addEventListener(action, createRoom);
 	btn.joinRoom.addEventListener(action, joinRoom);
 	btn.submit.addEventListener(action, submit);
+	connect ("admin-panel", restartRound)
 
 };
 
@@ -34,9 +41,9 @@ function send(msg) {
 	websocket.send(JSON.stringify(msg))
 }
 function find(obj) {
-		const found = document.getElementById(obj);
-		return found;
-	}
+	const found = document.getElementById(obj);
+	return found;
+}
 function sendServerLog(log) {
 	send({
 		type: "log",
@@ -81,6 +88,13 @@ function submit() {
 	//Weiterleitung Serverseitig einbauen
 }
 
+function restartRound () {
+	send({
+		type: "restart"
+	});
+
+}
+
 //Socket-Handler
 
 websocket.onopen = (e) => {
@@ -109,15 +123,13 @@ websocket.onmessage = (e) => {
 		case "message":
 			output.insertAdjacentHTML("afterbegin", `(${timeStr}) ${msg.userName}: ${msg.text} <br>`);
 			//text = `(${timeStr}) ${msg.id} : ${msg.text} <br>`;
-			break;c
+			break; c
 		case "redirect":
 			document.getElementById(page).style.display = "none";
 			page = msg.page;
 			document.getElementById(page).style.display = "block";
 			break;
-		case "reject-username":
-			text = `Your username has been set to <em>${msg.name}</em> because the name you chose is in use.<br>`;
-			break;
+
 		case "login-info":
 			console.log("Login-Info bekommen" + msg.name + msg.raum);
 			//Hiermit werden die Login-Information angezeigt
@@ -129,7 +141,12 @@ websocket.onmessage = (e) => {
 
 			break;
 		case "show-answers":
-			find("all-answers").innerHTML += msg.answers;
+			find("all-answers").innerHTML = msg.answers;
+
+			break;
+
+		case "show-admin-panel":
+			find("admin-panel").style.display = "block"
 
 			break;
 

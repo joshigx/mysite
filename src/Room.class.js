@@ -54,7 +54,7 @@ export class Room {
 
 
 
-	showResults() {
+	startResultListener() {
 		console.log("showResults() wurde aufgerufen");
 
 		//Die Bedingung die gecheckt wird
@@ -75,7 +75,7 @@ export class Room {
 				this.open = false;
 				this.randomize(this.allAnswers);
 				function getAnswers(array) { 
-					const result = array.map((el, i) => `${String.fromCharCode(65 + i)}: ${el}`).join("\n"); 
+					const result = array.map((el, i) => `${String.fromCharCode(65 + i)}: ${el}`).join("<br> <br>"); 
 					return result;
 				}
 				const msg = {
@@ -87,11 +87,9 @@ export class Room {
 
 				const msgAdmin = {
 					type: "show-admin-panel",
-					msg
 				}
 
-				console.log("Alle CLients haben geantwortet und wurden weitergeleitet");
-				//Hier muss dieser Fisher Shuffle ALogrhytmus rein
+				this.admin.send(msgAdmin);
 			}
 
 

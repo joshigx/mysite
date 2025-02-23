@@ -9,8 +9,6 @@ export class Connection {
 	 * @param {Server} server 
 	 */
 
-	static allAnswers = [];
-
 	constructor(socket, server) {
 		this.socket = socket;
 		this.server = server;
@@ -20,15 +18,6 @@ export class Connection {
 		this.socket.addEventListener("close", this.close.bind(this));
 		this.socket.addEventListener("error", this.error.bind(this));
 	}
-
-
-static addAnswer(answer) {
-	Connection.allAnswers.push(answer)
-}
-
-static getAnswers () {
-	return Connection.allAnswers;
-} 
 
 	/**
 	 * @param {Event} e 
@@ -55,6 +44,9 @@ static getAnswers () {
 					break;
 				case "createRoom":
 					this.handleCreateRoom(msg);
+					break;
+				case "restart":
+					this.handleRestart();
 					break;
 				default:
 					console.log("Unbekannte Nachricht ist eingetroffen", msg);
@@ -142,7 +134,10 @@ static getAnswers () {
 	 * @param {JSON} msg 
 	 */
 	handleCreateUser(msg) {
-		this.username = msg.id;
+
+		if (msg.id === ) 
+		{
+			this.username = msg.id;
 		console.log(`Neuer Log-In: ${this.username}`);
 		const loginMsg = {
 			type: "login",
@@ -150,6 +145,9 @@ static getAnswers () {
 		}
 		this.send(loginMsg);
 		this.redirect("select");
+	}
+
+	else {this.alert("Nutzername ist bereits vergeben")}
 	}
 
 	/**
@@ -174,7 +172,7 @@ static getAnswers () {
 			// Setzt den aktuelle Raum des zu erstellenden Nutzers auf seinen erstellten Raum
 			this.room = room;
 			this.room.clients.set(this.uuid, this)
-			this.room.showResults();
+			this.room.startResultListener();
 
 			this.redirect("room");
 			this.sendLoginInfo();
@@ -199,19 +197,20 @@ static getAnswers () {
 			}
 			else {
 
-				if (this.room.open === false) {
+				if (room.open === false) {
 
 					this.alert("Der Raum ist bereits gerade in einer Sitzung und nicht mehr offen");
 				}
-				
-				
+
+
 				else {
-			this.room = room;
-			this.room.clients.set(this.uuid, this);
-			this.redirect("room");
-			this.sendLoginInfo();
-			console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);}
-		}
+					this.room = room;
+					this.room.clients.set(this.uuid, this);
+					this.redirect("room");
+					this.sendLoginInfo();
+					console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);
+				}
+			}
 
 		}
 	}
@@ -225,7 +224,7 @@ static getAnswers () {
 			this.redirect("login");
 			return;
 		}
-		
+
 		msg.userName = this.username;
 		this.room.broadcast(msg);
 	}
@@ -237,36 +236,35 @@ static getAnswers () {
 
 		const answer = msg.text;
 		this.redirect("waiting");
-		this.room.allAnswers.push(answer);
-		
-		//this.sendStatus = true;
-		
-		// const conditionFunction = () => {
-		// 	return Array.from(this.room.clients.values()).every(client => client.sendStatus === true);
- 
-		// }
-
-		// // Prüfen, ob alle Clients bereit sind
-		// const waitForAllClients = async () => {
-		// 	console.log("Warte, bis alle Clients sendStatus = true haben...");
-		// 	await this.waitForCondition(conditionFunction);
-		// 	resolve()
-		// };
-
-
-		// 	function resolve () {
-		// 		this.redirect("resolve");
-		// 	}
-
-
-
-
-		// waitForAllClients();
-
-
+		console.log(this.room.clients.size);
+		this.room.allAnswers.push(answer);+
+		console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
+		console.log("Anzahl an Nutzern im RAum" + this.room.clients.size);
 		return;
+
+		
 	}
 
+	handleRestart() {
+		if (this.uuid === this.room.admin.uuid) {
+			this.room.open = true;
+			this.room.redirectAll("room");
+			this.room.allAnswers.length = 0;
+
+			this.room.startResultListener();
+
+		console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
+		console.log("Anzahl an Nutzern im RAum" + this.room.clients.size);
+			
+			
+
+		} else {
+
+			this.alert("Du bist kein Admin und solltest diesen Knopf gar nicht sehen dürfen")
+
+		}
+
+	}
 
 
 
