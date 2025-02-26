@@ -144,21 +144,18 @@ export class Connection {
 	 */
 	handleCreateUser(msg) {
 
-		if (!this.usernameExists(msg.id, this.server.clients)) 
-
-		
-		{
+		if (!this.usernameExists(msg.id, this.server.clients)) {
 			this.username = msg.id;
-		console.log(`Neuer Log-In: ${this.username}`);
-		const loginMsg = {
-			type: "login",
-			clientId: this.uuid,
+			console.log(`Neuer Log-In: ${this.username}`);
+			const loginMsg = {
+				type: "login",
+				clientId: this.uuid,
+			}
+			this.send(loginMsg);
+			this.redirect("select");
 		}
-		this.send(loginMsg);
-		this.redirect("select");
-	}
 
-	else {this.alert("Nutzername ist bereits vergeben")}
+		else { this.alert("Nutzername ist bereits vergeben") }
 	}
 
 	/**
@@ -248,12 +245,12 @@ export class Connection {
 		const answer = msg.text;
 		this.redirect("waiting");
 		console.log(this.room.clients.size);
-		this.room.allAnswers.push(answer);+
-		console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
+		this.room.allAnswers.push(answer); +
+			console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
 		console.log("Anzahl an Nutzern im RAum" + this.room.clients.size);
 		return;
 
-		
+
 	}
 
 	handleRestart() {
@@ -264,10 +261,10 @@ export class Connection {
 
 			this.room.startResultListener();
 
-		console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
-		console.log("Anzahl an Nutzern im RAum" + this.room.clients.size);
-			
-			
+			console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
+			console.log("Anzahl an Nutzern im RAum" + this.room.clients.size);
+
+
 
 		} else {
 
