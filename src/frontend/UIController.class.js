@@ -65,7 +65,7 @@ export class UIController {
 
 			//Hier werden die Typen mit den Funktionen verknüpft
 			const handlers = {
-				"redirect": () => this.messagehandlerhandleRedirect(msg),
+				"redirect": () => this.handleRedirect(msg),
 				"login-info": () => this.handleLoginInfo(msg),
 				"alert": () => this.handleAlert(msg),
 				"show-answers": () => this.handleShowAnswers(msg),
