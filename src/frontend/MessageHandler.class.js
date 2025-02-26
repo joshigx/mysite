@@ -1,16 +1,8 @@
 export class MessageHandler {
 
     constructor (UIController) {
-
-
         this.uic = UIController;
-
     }
-
-	
-
-
-
 
 	handleRedirect(msg) {
 

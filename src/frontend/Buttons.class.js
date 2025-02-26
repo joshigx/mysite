@@ -2,7 +2,6 @@ export class Buttons {
 
     constructor (uic) {
 
-
         this.uic = uic;
         this.activateButtons();
 
