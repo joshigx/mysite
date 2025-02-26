@@ -1,6 +1,7 @@
 // Hier kommt nur der Code rein, der Veränderungen in der UI hervorruft
 //Also alles, was die sichtbare Seite verändert
 
+import { Buttons } from "./Buttons.class.js";
 import { MessageHandler } from "./MessageHandler.class.js";
 export class UIController {
 
@@ -10,9 +11,9 @@ export class UIController {
 		this.document = document;
 		this.page = "login";
 		this.output = null;
-		this.activateButtons();
+		
 		this.messagehandler = new MessageHandler(this);
-
+		this.btn = new Buttons(this);
 	}
 
 	find(obj) {
@@ -20,40 +21,9 @@ export class UIController {
 		return found;
 	}
 
-
-	activate(button, fnctn) {
-		this.find(button).addEventListener('click', fnctn)
-	}
-
-
-	activateButtons() {
-
-		this.activate("create-user", this.createUser.bind(this));
-		this.activate("create-room", this.createRoom.bind(this));
-		this.activate("join-room", this.joinRoom.bind(this));
-		this.activate("submit", this.submit.bind(this));
-		this.activate("admin-panel", this.restartRound.bind(this))
-
-
-	}
-
-
-	//Diese FUnktion verknüpft / holt die send FUnktion aus websocket Manager hier her
-	//Alternativ: jedesmal: websocketMAnager.send(msg) direkt benutzen
-
 	send(msg) {
 		this.websocketManager.send(msg)
 	}
-
-	//Allgemeine / Hilfsfunktionen FUnktionen hier einfügen
-
-	//Kurzform für document.getElementById
-
-
-	//Fügt einen ClickListener an einen Knopf (via id) an und führt Funktionen aus
-
-
-	//Einkommende "Befehle" vom Server werden hier verarbeiten:
 
 	handleMessage(e) {
 
@@ -99,56 +69,6 @@ export class UIController {
 		}
 
 	}
-
-	
-	//Button Funktion hier einfügen(die ausgeführt weden, wenn ein Button gedrückt wird.)
-
-
-	createUser() {
-		this.send({
-			type: "createUser",
-			id: this.find("user-name").value,
-		})
-	}
-
-
-
-	createRoom() {
-		this.send({
-			type: "createRoom",
-			nameRoomToCreate: this.find("create-room-name").value,
-			passwordRoomToCreate: this.find("create-room-password").value
-		})
-		console.log("Erstellung eines Raumes beim Server angefragt");
-	}
-
-	joinRoom() {
-		this.send({
-			type: "login",
-			roomToJoin: this.find("room-id").value,
-			passwordOfRoom: this.find("room-password").value,
-		})
-		console.log("Raum-Beitrittsanfrage an Server gesendet.");
-
-	}
-
-	submit() {
-		this.send({
-			type: "submit",
-			text: this.find("input").value,
-		})
-
-		this.document.getElementById("input").value = "";
-		//Weiterleitung Serverseitig einbauen
-	}
-
-	restartRound() {
-		this.send({
-			type: "restart"
-		});
-
-	}
-
 
 
 

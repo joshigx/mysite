@@ -7,6 +7,10 @@ export class MessageHandler {
 
     }
 
+	
+
+
+
 
 	handleRedirect(msg) {
 
