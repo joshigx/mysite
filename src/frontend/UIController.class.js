@@ -65,11 +65,11 @@ export class UIController {
 
 			//Hier werden die Typen mit den Funktionen verknüpft
 			const handlers = {
-				"redirect": () => this.handleRedirect(msg),
-				"login-info": () => this.handleLoginInfo(msg),
-				"alert": () => this.handleAlert(msg),
-				"show-answers": () => this.handleShowAnswers(msg),
-				"show-admin-panel": () => this.handleShowAdminPanel(msg),
+				"redirect": () => this.messagehandler.handleRedirect(msg),
+				"login-info": () => this.messagehandler.handleLoginInfo(msg),
+				"alert": () => this.messagehandler.handleAlert(msg),
+				"show-answers": () => this.messagehandler.handleShowAnswers(msg),
+				"show-admin-panel": () => this.messagehandler.handleShowAdminPanel(msg),
 				// "": () => this. (),
 				// "": () => this. (),
 				// "": () => this. (),
@@ -99,38 +99,8 @@ export class UIController {
 		}
 
 	}
-	//spezifische Event-Handler
 
-	handleRedirect(msg) {
-
-		console.log("handleRedirect wurde erreicht");
-		this.document.getElementById(this.page).style.display = "none";
-		this.page = msg.page;
-		this.document.getElementById(this.page).style.display = "block";
-	}
-
-	handleLoginInfo(msg) {
-		console.log("Login-Info bekommen" + msg.name + msg.raum);
-		//Hiermit werden die Login-Information angezeigt
-		this.document.getElementById("show-user-name").innerHTML += msg.name;
-		this.document.getElementById("show-room-id").innerHTML += msg.raum;
-	}
-	handleAlert(msg) {
-		alert(msg.alert);
-
-	}
-
-	handleShowAnswers(msg) {
-		this.find("all-answers").innerHTML = msg.answers;
-	}
-
-	handleShowAdminPanel() {
-		this.find("admin-panel").style.display = "block"
-	}
-
-
-
-
+	
 	//Button Funktion hier einfügen(die ausgeführt weden, wenn ein Button gedrückt wird.)
 
 
