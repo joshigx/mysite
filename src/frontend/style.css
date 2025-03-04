@@ -1,42 +1,95 @@
 :root {
-	--main-color: #9c1f1f;
-	--secondary-color: #005807;
-	--main-font-color: #ffffff;
-
+  --main-color: #2d67dd;
+  --main-color-hover: #6e1616;
+  --secondary-color: #002c58;
+  --main-font-color: #ffffff;
 }
 
 
-.button {
-	background-color: var(--main-color);
-	color: var(--main-font-color);
-	padding: 10px;
-	border-radius: 5px;
+@font-face {
+  font-family: 'MyWebFont';
+  src: url("./fonts/Inter-VariableFont_opsz\wght.ttf") format('truetype');
+
+}
+
+body
+{
+  font-family: 'MyWebFont', sans-serif;
+  margin: 0;
+  color:var(--main-color);
+  background-color: #191919;
+  
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+input {
+  display: block;
+  text-align: center;
+  width: min-content;
+}
+
+button {
+
+  background-color: var(--main-color);
+  color: var(--main-font-color);
+  padding: 5px 10px;
+  width: min-content;
+  border-radius: 20px;
+  margin: 10px;
+  border-width: 3px;
+  border-color: #c6ebfb;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
 
 
+
+section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  
+
+}
+
+.button:hover {
+  background-color: var(--main-color-hover);
+  cursor: pointer;
 }
 
 
 
 #select {
-	display: none;
+  display: none;
 }
 
 #room {
-	display: none;
+  display: none;
 }
 
 #waiting {
-	display: none;
+  display: none;
 }
 
 #resolve {
-	display: none;
+  display: none;
 }
 
 #admin-panel {
-	display: none;
+  display: none;
 }
-
-
-
-
