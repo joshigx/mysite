@@ -11,11 +11,22 @@
 
 <body>
  
-  <main>
-    <h1>Chat-Raum</h1>
+<nav class="navbar">
+      <div class="logo">Wer denkt was</div>
+      <div class="nav-links">
+          <a href="./login">Home</a>
+          <a href="./impressum">Über uns</a>
+          <a href="#">Kontakt</a>
+      </div>
+  </nav>
+
+
+  <main class="content">
+    
+
     <section id="login">
       <div class="container">
-      <p class="p">Suche dir einen Nutzernamen und eine Raum-Nr aus</p>
+      <p class="p">Suche dir einen Nutzernamen aus</p>
       <input id="user-name" type="text" placeholder="Nutzername" />
       <button id="create-user">Weiter</button>
     </div>
@@ -24,9 +35,12 @@
 
     <section id="select">
       <div class="container">
+        <p>Tritt einem Raum bei oder erstelle einen eigenen.</p>
       <input id="room-id" type="text" placeholder="Raum-Nr." />
       <input id="room-password" type="text" placeholder="Passwort des Raumes" />
       <button id="join-room">Beitreten</button>
+      <br>
+      <br>
       <input id="create-room-name" type"text" placeholder="Raum Name eingeben">
       <input
         id="create-room-password"

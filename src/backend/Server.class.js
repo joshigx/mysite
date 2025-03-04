@@ -64,9 +64,24 @@ export class Server {
 		const basePath = "./src/frontend";
 		let filePath = `${basePath}${url.pathname}`;
 
+		//Hier routen wir die sichtbare URL (url.pathname)
+		//mit den interenen Dateinen (filePath)
+
 		if(url.pathname === "/" || url.pathname.startsWith("/login")) {
 			filePath = `${basePath}/index.html`;
-		} else if (url.pathname.endsWith(".html")) {
+		} 
+		
+		//Wenn die angefragte URL /impressum ist
+		else if (url.pathname === "/impressum")
+			
+			{
+
+				//senden wir die Datei mit folgendem Pfad zurück
+				filePath = `${basePath}/impressum.html`;
+		}
+				
+		
+		else if (url.pathname.endsWith(".html")) {
 			console.log("URL mit html Endung angefragt");
 
 			return new Response(null, {
