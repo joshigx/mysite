@@ -229,7 +229,7 @@ export class Connection {
 	handleMessage(msg) {
 		if (!this.room) {
 			console.log("Jemand ohne Raum, der eventuell den Fehler auslöste ist auf die index.html gekommen");
-			this.redirect("login");
+			this.redirect("game");
 			return;
 		}
 

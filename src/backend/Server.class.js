@@ -67,7 +67,8 @@ export class Server {
 		//Hier routen wir die sichtbare URL (url.pathname)
 		//mit den interenen Dateinen (filePath)
 
-		if(url.pathname === "/" || url.pathname.startsWith("/login")) {
+		//if(url.pathname === "/" || url.pathname.startsWith("/login")) {
+			if(url.pathname === "/") {
 			filePath = `${basePath}/index.html`;
 		} 
 		
@@ -79,6 +80,14 @@ export class Server {
 				//senden wir die Datei mit folgendem Pfad zurück
 				filePath = `${basePath}/impressum.html`;
 		}
+
+		else if (url.pathname === "/game")
+			
+			{
+
+				//senden wir die Datei mit folgendem Pfad zurück
+				filePath = `${basePath}/game.html`;
+		}
 				
 		
 		else if (url.pathname.endsWith(".html")) {
@@ -86,7 +95,7 @@ export class Server {
 
 			return new Response(null, {
 				status: 301,
-				headers: { Location: "/login" },
+				headers: { Location: "/" },
 			})
 		}
 
