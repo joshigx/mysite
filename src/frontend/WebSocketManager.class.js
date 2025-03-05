@@ -6,7 +6,7 @@ export class WebSocketManager {
 	constructor(document) {
 
 		this.document = document;
-		this.wsUri = `ws://${window.location.host}/`;
+		this.wsUri = `wss://${window.location.host}/`;
 		this.websocket = new WebSocket(this.wsUri);
 		this.uic = new UIController(document, this);
 		this.websocket.addEventListener("open", this.open.bind(this))
