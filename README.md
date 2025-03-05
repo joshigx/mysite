@@ -9,3 +9,5 @@ bzw. nur deno_server.service
 - `sudo systemctl status deno_server.service`
 
 Log einsehen: journalctl -u deno_server.service -f
+
+test
