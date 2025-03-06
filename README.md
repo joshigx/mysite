@@ -10,4 +10,4 @@ bzw. nur deno_server.service
 
 Log einsehen: journalctl -u deno_server.service -f
 
-test
+Zuerst Veränderungen nach GitHub Pushen und dann vom server aus von github pullen
