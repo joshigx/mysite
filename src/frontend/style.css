@@ -290,6 +290,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+
 }
 
 .skill-item {
@@ -301,6 +302,7 @@ body {
   border-radius: var(--border-radius);
   width: calc(33.333% - 10px);
   transition: var(--transition);
+  text-decoration: none;
 }
 
 .skill-item:hover {
