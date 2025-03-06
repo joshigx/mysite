@@ -293,7 +293,7 @@ body {
 
 }
 
-.skill-item {
+.skill-item, .skill-item:visited, .skill-item:hover, .skill-item:active {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -302,6 +302,7 @@ body {
   border-radius: var(--border-radius);
   width: calc(33.333% - 10px);
   transition: var(--transition);
+  color: var(--text-light); /* This uses your light text color variable */
   text-decoration: none;
 }
 
