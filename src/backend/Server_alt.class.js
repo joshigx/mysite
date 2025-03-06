@@ -64,41 +64,39 @@ export class Server {
 		const basePath = "./src/frontend";
 		let filePath = `${basePath}${url.pathname}`;
 
-		// Liste der statischen Dateien und Verzeichnisse, die direkt bereitgestellt werden sollen
-		const staticPaths = ['/style.css', '/frontend.js', '/portfolio.js', '/WebSocketManager.class.js', 
-							'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', 
-							'/fonts', '/images'];
-							
-		// Prüfen, ob der Pfad eine statische Ressource ist
-		const isStaticResource = staticPaths.some(path => url.pathname.startsWith(path));
-		
-		// Hier routen wir die sichtbare URL (url.pathname)
-		// mit den internen Dateien (filePath)
-		if (isStaticResource) {
-			// Statische Ressourcen direkt bereitstellen
-			console.log("Statische Ressource angefragt:", url.pathname);
-		} 
-		else if (url.pathname === "/") {
-			// Hauptseite (Portfolio)
+		//Hier routen wir die sichtbare URL (url.pathname)
+		//mit den interenen Dateinen (filePath)
+
+		//if(url.pathname === "/" || url.pathname.startsWith("/login")) {
+			if(url.pathname === "/") {
 			filePath = `${basePath}/index.html`;
 		} 
-		else if (url.pathname === "/game" || url.pathname === "/game/" || url.pathname.startsWith("/game")) {
-			// Spielseite
-			filePath = `${basePath}/game.html`;
+		
+		//Wenn die angefragte URL /impressum ist
+		else if (url.pathname === "/impressum")
+			
+			{
+
+				//senden wir die Datei mit folgendem Pfad zurück
+				filePath = `${basePath}/impressum.html`;
 		}
+
+		else if (url.pathname === "/game")
+			
+			{
+
+				//senden wir die Datei mit folgendem Pfad zurück
+				filePath = `${basePath}/game.html`;
+		}
+				
+		
 		else if (url.pathname.endsWith(".html")) {
 			console.log("URL mit html Endung angefragt");
+
 			return new Response(null, {
 				status: 301,
 				headers: { Location: "/" },
-			});
-		}
-		else {
-			// Alle anderen Pfade zur Hauptseite umleiten
-			return new Response(null, {
-				status: 301,
-				headers: { Location: "/" },
-			});
+			})
 		}
 
 		console.log("Der Datei-Pfad ist: ", filePath);
@@ -113,18 +111,9 @@ export class Server {
 			const types = {
 				"js": "application/javascript",
 				"css": "text/css",
-				"html": "text/html",
-				"json": "application/json",
-				"png": "image/png",
-				"jpg": "image/jpeg",
-				"jpeg": "image/jpeg",
-				"svg": "image/svg+xml",
-				"ico": "image/x-icon",
-				"ttf": "font/ttf",
-				"woff": "font/woff",
-				"woff2": "font/woff2"
+				"html": "text/html"
 			};
-			const contentType = types[ext] || "application/octet-stream";
+			const contentType = types[ext] !== null ? types[ext] : "application/octet-stream";
 
 			return new Response(file.readable, {
 				headers: { "Content-Type": contentType },

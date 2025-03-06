@@ -1,29 +1,279 @@
 <!DOCTYPE html>
-
+<html lang="de">
 <head>
-  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>who said what</title>
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+  <title>Josua Lucas | Portfolio</title>
   <link rel="stylesheet" href="./style.css" />
-  <link rel="manifest" href="./manifest.json">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>
 
 <body>
- 
+  <!-- Navigation -->
   <nav class="navbar">
-    <div class="logo">Wer denkt was?</div>
+    <div class="logo">Josua Lucas</div>
     <div class="nav-links">
-        <a href="./">Home</a>
-        <a href="./impressum">Über uns</a>
-        <a href="./game">Spiel</a>
+      <a href="#home">Home</a>
+      <a href="#about">Über mich</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projekte</a>
+      <a href="#game">Wer denkt was?</a>
+      <a href="#contact">Kontakt</a>
     </div>
-</nav>
-
+    <div class="burger-menu">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+    </div>
+  </nav>
 
   <main class="content">
-    
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="hero-content">
+        <h1>Willkommen auf meiner Webseite</h1>
+        <h2>Ich bin <span class="highlight">Josua Lucas</span></h2>
+        <p class="subtitle">Web-Entwickler & JavaScript-Enthusiast</p>
+        <div class="cta-buttons">
+          <a href="#projects" class="btn primary-btn">Meine Projekte</a>
+          <a href="#contact" class="btn secondary-btn">Kontakt aufnehmen</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <div class="section-container">
+        <h2 class="section-title">Über mich</h2>
+        <div class="about-content">
+          <div class="about-image">
+            <div class="image-placeholder">
+              <!-- Platzhalter für Ihr Foto -->
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <div class="about-text">
+            <p>Hallo, ich bin Josua Lucas, ein leidenschaftlicher Webentwickler aus Deutschland. Ich beschäftige mich mit der Entwicklung interaktiver Webanwendungen und Spiele.</p>
+            <p>Mein Fokus liegt auf der Erstellung moderner, benutzerfreundlicher und technisch fortschrittlicher Webapplikationen. Ich liebe es, neue Technologien zu erforschen und kreative Lösungen zu entwickeln.</p>
+            <p>Wenn ich nicht code, findet man mich beim Wandern, Lesen oder beim Experimentieren mit neuen Rezepten in der Küche.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section alternate-bg">
+      <div class="section-container">
+        <h2 class="section-title">Meine Skills</h2>
+        <div class="skills-container">
+          <div class="skill-category">
+            <h3>Frontend</h3>
+            <div class="skill-items">
+              <div class="skill-item">
+                <i class="fab fa-html5"></i>
+                <span>HTML5</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-css3-alt"></i>
+                <span>CSS3</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-js"></i>
+                <span>JavaScript</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="skill-category">
+            <h3>Backend</h3>
+            <div class="skill-items">
+              <div class="skill-item">
+                <i class="fab fa-node-js"></i>
+                <span>Deno</span>
+              </div>
+              <div class="skill-item">
+                <i class="fas fa-server"></i>
+                <span>WebSockets</span>
+              </div>
+              <div class="skill-item">
+                <i class="fas fa-database"></i>
+                <span>SQLite</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="skill-category">
+            <h3>Tools & Andere</h3>
+            <div class="skill-items">
+              <div class="skill-item">
+                <i class="fab fa-git-alt"></i>
+                <span>Git</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-linux"></i>
+                <span>Linux/Debian</span>
+              </div>
+              <div class="skill-item">
+                <i class="fas fa-network-wired"></i>
+                <span>nginx</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <div class="section-container">
+        <h2 class="section-title">Meine Projekte</h2>
+        <div class="projects-grid">
+          <!-- Projekt 1: "Wer denkt was?" -->
+          <div class="project-card featured">
+            <div class="project-image">
+              <div class="image-placeholder">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Wer denkt was?</h3>
+              <p>Ein interaktives Mehrspieler-Ratespiel mit WebSocket-Technologie. Spieler können Räume erstellen, beitreten und ihre Antworten vergleichen.</p>
+              <div class="project-tags">
+                <span>JavaScript</span>
+                <span>WebSockets</span>
+                <span>Deno</span>
+              </div>
+              <a href="#game" class="btn primary-btn small">Zum Spiel</a>
+            </div>
+          </div>
+          
+          <!-- Platzhalter für weitere Projekte -->
+          <div class="project-card">
+            <div class="project-image">
+              <div class="image-placeholder">
+                <i class="fas fa-code"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Projekt 2</h3>
+              <p>Beschreibung eines weiteren Projekts, an dem Sie gearbeitet haben oder an dem Sie arbeiten möchten.</p>
+              <div class="project-tags">
+                <span>HTML/CSS</span>
+                <span>JavaScript</span>
+              </div>
+              <a href="#" class="btn primary-btn small">Details</a>
+            </div>
+          </div>
+          
+          <div class="project-card">
+            <div class="project-image">
+              <div class="image-placeholder">
+                <i class="fas fa-laptop-code"></i>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Projekt 3</h3>
+              <p>Beschreibung eines weiteren Projekts, an dem Sie gearbeitet haben oder an dem Sie arbeiten möchten.</p>
+              <div class="project-tags">
+                <span>Backend</span>
+                <span>API</span>
+              </div>
+              <a href="#" class="btn primary-btn small">Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="game" class="section alternate-bg">
+      <div class="section-container">
+        <h2 class="section-title">Wer denkt was?</h2>
+        <div class="game-container">
+          <div class="game-info">
+            <h3>Über das Spiel</h3>
+            <p>„Wer denkt was?" ist ein interaktives Partyspiel, bei dem die Spieler erraten müssen, wer welche Antwort gegeben hat.</p>
+            <p>Erstellen Sie einen Raum, teilen Sie ihn mit Freunden und finden Sie heraus, wie gut Sie die Gedanken der anderen kennen!</p>
+            <a href="./game" class="btn primary-btn">Jetzt spielen</a>
+          </div>
+          
+          <div class="game-preview">
+            <div class="preview-placeholder">
+              <i class="fas fa-gamepad"></i>
+              <p>Spielvorschau</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="section-container">
+        <h2 class="section-title">Kontakt</h2>
+        <div class="contact-container">
+          <div class="contact-info">
+            <p>Haben Sie Fragen oder möchten Sie mit mir zusammenarbeiten? Ich freue mich auf Ihre Nachricht!</p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>email@josua-lucas.de</span>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Deutschland</span>
+              </div>
+              <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-form">
+            <form id="contact-form">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">E-Mail</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Nachricht</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="btn primary-btn">Senden</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">Josua Lucas</div>
+      <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">Über mich</a>
+        <a href="#projects">Projekte</a>
+        <a href="#contact">Kontakt</a>
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Josua Lucas | Alle Rechte vorbehalten</p>
+    </div>
+  </footer>
+
+  <script type="module" src="./frontend.js"></script>
+  <script type="module" src="./portfolio.js"></script>
 </body>
+</html>
