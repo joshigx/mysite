@@ -33,7 +33,7 @@
       <div class="hero-content">
         <h1>Willkommen auf meiner Webseite</h1>
         <h2>Ich bin <span class="highlight">Josua Lucas</span></h2>
-        <p class="subtitle">Web-Entwickler & JavaScript-Enthusiast</p>
+        <p class="subtitle">Web-Entwickler & coding-Enthusiast</p>
         <div class="cta-buttons">
           <a href="#projects" class="btn primary-btn">Meine Projekte</a>
           <a href="#contact" class="btn secondary-btn">Kontakt aufnehmen</a>
@@ -105,7 +105,7 @@
           </div>
           
           <div class="skill-category">
-            <h3>Tools & Andere</h3>
+            <h3>Tools & Betriebssysteme</h3>
             <div class="skill-items">
               <a href="https://git-scm.com/" class="skill-item">
                 <i class="fab fa-git-alt"></i>
@@ -150,39 +150,49 @@
           </div>
           
           <!-- Platzhalter für weitere Projekte -->
-          <!-- <div class="project-card">
+          <div class="project-card featured">
             <div class="project-image">
               <div class="image-placeholder">
                 <i class="fas fa-code"></i>
               </div>
             </div>
             <div class="project-info">
-              <h3>Projekt 2</h3>
-              <p>Beschreibung eines weiteren Projekts, an dem Sie gearbeitet haben oder an dem Sie arbeiten möchten.</p>
+              <h3>Diese Website</h3>
+              <p>Um das WebSocket-Spiel herum ist diese Website entstanden. 
+              Sie läuft ebenfalls über Deno, wobei Deno hier nur das Routing übernimmt und als klassischer WebServer fungiert.
+              nginx nutze ich als Reverseproxy, der HTTP- und HTTPS-Anfrage animmt und intern an den Port des Deno-Servers weiterleitet.
+              <a class="intext-links" href="https://letsencrypt.org/de/">Let's Encrypt</a> hat das TSL-Zertifikat für den nginx-server asugestellt.
+              </p>
               <div class="project-tags">
                 <span>HTML/CSS</span>
                 <span>JavaScript</span>
+                <span>Deno</span>
+                <span>nginx</span>
+                <span>Linux/Debian</span>
               </div>
               <a href="#" class="btn primary-btn small">Details</a>
             </div>
-          </div> -->
+          </div>
           
-          <!-- <div class="project-card">
+          <div class="project-card featured">
             <div class="project-image">
               <div class="image-placeholder">
                 <i class="fas fa-laptop-code"></i>
               </div>
             </div>
             <div class="project-info">
-              <h3>Projekt 3</h3>
-              <p>Beschreibung eines weiteren Projekts, an dem Sie gearbeitet haben oder an dem Sie arbeiten möchten.</p>
+              <h3>ein Linux/Debian-Server</h3>
+              <p>
+                Dieser DenoServer bzw. nginx laufen auf einer virtuellen Maschine, welche wiederum auch auf einem Linuxsystem läuft.
+                Über DynDNS wird dem Server eine feste Domain zugewiesen. Somit ist er ganz leicht unter der Domain <a class="intext-links" href="josua-lucas.de">josua-lucas.de</a> erreichbar.
+              </p>
               <div class="project-tags">
                 <span>Backend</span>
                 <span>API</span>
               </div>
               <a href="#" class="btn primary-btn small">Details</a>
             </div>
-          </div> -->
+          </div>
           
 
         </div>

@@ -9,5 +9,6 @@ bzw. nur deno_server.service
 - `sudo systemctl status deno_server.service`
 
 Log einsehen: journalctl -u deno_server.service -f
+ü+
 
 Zuerst Veränderungen nach GitHub Pushen und dann vom server aus von github pullen

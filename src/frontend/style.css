@@ -191,7 +191,9 @@ body {
 
 /* Buttons */
 .btn {
-  display: inline-block;
+  display: flex;
+  justify-content: center; /* Horizontally center content */
+  align-items: center;     /* Vertically center content */
   padding: 12px 25px;
   border-radius: 30px;
   text-decoration: none;
@@ -442,14 +444,12 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  margin-right: 0px;
+  margin-right: 20px;
 }
 
-.contact-item i {
-  color: var(--main-color);
-  font-size: 1.2rem;
-  margin-right: 15px;
-  width: 20px;
+
+.contact-item span {
+  margin-left: 10px; /* This adds additional space between icon and text */
 }
 
 .social-links {
@@ -790,7 +790,8 @@ body {
   }
 }
 
-.fas {
 
-  margin-right: 5px;
+.intext-links {
+
+  color: var(--main-font-color)
 }
