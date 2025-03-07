@@ -61,6 +61,10 @@ export class Server {
 		// Wenn es eine normale HTTP-Anfrage ist, prüfen wir den Pfad der angeforderten Datei
 		const url = new URL(request.url);
 
+		console.log("Eingehende URL:", request.url);
+		console.log("Hostname:", url.hostname); 
+		console.log("Pathname:", url.pathname);
+
 		const basePath = "./src/frontend";
 		let filePath = `${basePath}${url.pathname}`;
 
@@ -74,19 +78,27 @@ export class Server {
 		
 		// Hier routen wir die sichtbare URL (url.pathname)
 		// mit den internen Dateien (filePath)
+
+		console.log("Der Dateipfad in Zeile 78 ist:", url.pathname);
+		
 		if (isStaticResource) {
 			// Statische Ressourcen direkt bereitstellen
 			console.log("Statische Ressource angefragt:", url.pathname);
 		} 
+
+
+
+		else if (url.pathname === "/test" || url.pathname === "/blog/") {
+			console.log("Blog route matched! Serving blog.html");
+			filePath = `${basePath}/test2.html`;
+		}
+
 		else if (url.pathname === "/") {
 			// Hauptseite (Portfolio)
 			filePath = `${basePath}/index.html`;
 		} 
-		
-	else if (url.pathname === "/blog") {
-			
-			filePath = `${basePath}/blog.html`;
-		}
+
+
 
 		else if (url.pathname === "/game") {
 			// Spielseite
