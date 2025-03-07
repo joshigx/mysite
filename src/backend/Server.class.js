@@ -82,10 +82,19 @@ export class Server {
 			// Hauptseite (Portfolio)
 			filePath = `${basePath}/index.html`;
 		} 
-		else if (url.pathname === "/game" || url.pathname === "/game/" || url.pathname.startsWith("/game")) {
+		
+	else if (url.pathname === "/blog") {
+			
+			filePath = `${basePath}/blog.html`;
+		}
+
+		else if (url.pathname === "/game") {
 			// Spielseite
 			filePath = `${basePath}/game.html`;
 		}
+
+	
+
 		else if (url.pathname.endsWith(".html")) {
 			console.log("URL mit html Endung angefragt");
 			return new Response(null, {
