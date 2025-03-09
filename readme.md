@@ -1,3 +1,1 @@
-Site available under: josua-lucas.de
-
-
+Site available under: 

@@ -60,43 +60,32 @@ export class Server {
 	async serveWeb(request) {
 		// Wenn es eine normale HTTP-Anfrage ist, prüfen wir den Pfad der angeforderten Datei
 		const url = new URL(request.url);
-
-		console.log("Eingehende URL:", request.url);
-		console.log("Hostname:", url.hostname); 
-		console.log("Pathname:", url.pathname);
-
 		const basePath = "./src/frontend";
 		let filePath = `${basePath}${url.pathname}`;
 
 		// Liste der statischen Dateien und Verzeichnisse, die direkt bereitgestellt werden sollen
-		const staticPaths = ['/style.css', '/frontend.js', '/portfolio.js', '/WebSocketManager.class.js', 
-							'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', 
-							'/fonts', '/images'];
-							
+		const staticPaths = ['/style.css', '/frontend.js', '/portfolio.js', '/WebSocketManager.class.js',
+			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js',
+			'/fonts', '/images'];
+
 		// Prüfen, ob der Pfad eine statische Ressource ist
 		const isStaticResource = staticPaths.some(path => url.pathname.startsWith(path));
-		
+
 		// Hier routen wir die sichtbare URL (url.pathname)
 		// mit den internen Dateien (filePath)
 
-		console.log("Der Dateipfad in Zeile 78 ist:", url.pathname);
-		
+
 		if (isStaticResource) {
 			// Statische Ressourcen direkt bereitstellen
 			console.log("Statische Ressource angefragt:", url.pathname);
-		} 
-
-
-
-		else if (url.pathname === "/test" || url.pathname === "/blog/") {
-			console.log("Blog route matched! Serving blog.html");
-			filePath = `${basePath}/test2.html`;
 		}
+
+
 
 		else if (url.pathname === "/") {
 			// Hauptseite (Portfolio)
 			filePath = `${basePath}/index.html`;
-		} 
+		}
 
 
 
@@ -105,20 +94,28 @@ export class Server {
 			filePath = `${basePath}/game.html`;
 		}
 
-	
+
 
 		else if (url.pathname.endsWith(".html")) {
 			console.log("URL mit html Endung angefragt");
-			return new Response(null, {
-				status: 301,
-				headers: { Location: "/" },
+			
+			return new Response("404: Page Not Found", {
+				status: 404,
+				headers: { "Content-Type": "text/plain" }
 			});
+
+
+
+			// return new Response(null, {
+			// 	status: 301,
+			// 	headers: { Location: "/" },
+			// });
 		}
 		else {
 			// Alle anderen Pfade zur Hauptseite umleiten
-			return new Response(null, {
-				status: 301,
-				headers: { Location: "/" },
+			return new Response("404: Page Not Found", {
+				status: 404,
+				headers: { "Content-Type": "text/plain" }
 			});
 		}
 
