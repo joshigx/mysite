@@ -82,42 +82,32 @@ export class Server {
 
 
 
-		else if (url.pathname === "/") {
-			// Hauptseite (Portfolio)
-			filePath = `${basePath}/index.html`;
-		}
-
-
-
-		else if (url.pathname === "/game") {
-			// Spielseite
-			filePath = `${basePath}/game.html`;
-		}
-
-
-
-		else if (url.pathname.endsWith(".html")) {
-			console.log("URL mit html Endung angefragt");
-			
-			return new Response("404: Page Not Found", {
-				status: 404,
-				headers: { "Content-Type": "text/plain" }
-			});
-
-
-
-			// return new Response(null, {
-			// 	status: 301,
-			// 	headers: { Location: "/" },
-			// });
-		}
 		else {
-			// Alle anderen Pfade zur Hauptseite umleiten
-			return new Response("404: Page Not Found", {
-				status: 404,
-				headers: { "Content-Type": "text/plain" }
-			});
+
+			switch (url.pathname) {
+				case "/":
+					// Hauptseite (Portfolio)
+					filePath = `${basePath}/index.html`;
+					break;
+				case "/game":
+					// Hauptseite (Portfolio)
+					filePath = `${basePath}/game.html`;
+					break;
+				case "/blog":
+					// Hauptseite (Portfolio)
+					filePath = `${basePath}/blog.html`;
+					break;
+
+				default:
+					return new Response("404: Page Not Found", {
+						status: 404,
+						headers: { "Content-Type": "text/plain" }
+					});
+					break;
+			}
+
 		}
+
 
 		console.log("Der Datei-Pfad ist: ", filePath);
 
