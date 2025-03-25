@@ -11,8 +11,6 @@ export class Room {
 		//hier sind alle antworten gespeichert
 		this.allAnswers = [];
 
-		this.randomAnswers = [];
-
 		//hier ist die connection-instanz des admin/erstellers gepseichert
 		this.admin = admin;
 
@@ -28,6 +26,8 @@ export class Room {
 		console.log("DONE");
 	}
 
+
+	//Ordnet die Elemente im übergebenen Array zufällig an
 	randomize(arr) {
 
 		// Start from the last element and swap 
@@ -84,12 +84,16 @@ export class Room {
 			{
 				this.redirectAll("resolve");
 				this.open = false;
+
+				//Hier werden die Antworten vertauscht
 				this.randomize(this.allAnswers);
-				function getAnswers(array) { 
-					this.randomAnswers = array.map((el, i) => `${String.fromCharCode(65 + i)}: ${el}`).join("<br> <br>"); 
-					return this.randomAnswers;
-				}
 				
+				
+				//Macht aus einem Array etwas schönes /fügt buchstaben dazuz und 2x zeilenumbruch am ende)
+				function getAnswers(array) { 
+					const result = array.map((el, i) => `${String.fromCharCode(65 + i)}: ${el}`).join("<br> <br>"); 
+					return result;
+				}
 				const msg = {
 					type: "show-answers",
 					answers: getAnswers(this.allAnswers),
