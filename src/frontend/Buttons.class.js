@@ -12,6 +12,10 @@ export class Buttons {
 	}
 
 
+
+//Hier werden Buttons mit Funktionen "verknüpft"
+	
+
 	activateButtons() {
 
 		this.activate("create-user", this.createUser.bind(this));

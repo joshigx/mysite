@@ -11,8 +11,14 @@ export class Connection {
 
 	constructor(socket, server) {
 		this.socket = socket;
+
+		
 		this.server = server;
+		//in this.server.clients sind alle clients gespeichert
+		//this.server.clients ist eine map, key ist die uuid und value die instanz der jeweiligen connection
+		//in this.server.rooms, sind die räume gespeichert
 		this.uuid = crypto.randomUUID();
+		this.username = undefined;
 
 		this.socket.addEventListener("message", this.message.bind(this));
 		this.socket.addEventListener("close", this.close.bind(this));
@@ -116,6 +122,8 @@ export class Connection {
 
 
 
+
+	//Überprüft ob der client name in der Map map existiert
 	usernameExists(name, map) {
 		for (const client of map.values()) {
 			if (client.username === name) {
@@ -124,6 +132,8 @@ export class Connection {
 		}
 		return false;
 	}
+
+
 	waitForCondition(checkFunction, interval = 100) {
 		return new Promise(resolve => {
 			let check = setInterval(() => {
@@ -244,10 +254,7 @@ export class Connection {
 
 		const answer = msg.text;
 		this.redirect("waiting");
-		console.log(this.room.clients.size);
-		this.room.allAnswers.push(answer); +
-			console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
-		console.log("Anzahl an Nutzern im RAum" + this.room.clients.size);
+		this.room.allAnswers.push(answer); ;
 		return;
 
 
@@ -260,11 +267,6 @@ export class Connection {
 			this.room.allAnswers.length = 0;
 
 			this.room.startResultListener();
-
-			console.log("Anzahl an Antworten:" + this.room.allAnswers.length);
-			console.log("Anzahl an Nutzern im RAum" + this.room.clients.size);
-
-
 
 		} else {
 

@@ -34,6 +34,7 @@ export class UIController {
 
 
 			//Hier werden die Typen mit den Funktionen verknüpft
+			//Hier kommt rein, bei welche Aktion ausgelöst wird je nachdem, welcher Typ von Nachricht reinkommt
 			const handlers = {
 				"redirect": () => this.messagehandler.handleRedirect(msg),
 				"login-info": () => this.messagehandler.handleLoginInfo(msg),
@@ -50,7 +51,6 @@ export class UIController {
 
 			if (handlers[msg.type]) {
 				handlers[msg.type]()
-				console.log("Wurde erreicht" + string);
 
 			}
 

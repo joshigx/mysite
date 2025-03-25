@@ -4,6 +4,9 @@ export class MessageHandler {
         this.uic = UIController;
     }
 
+
+	//Diese Funktionen werden bei bestimmten einkommenden Nachrichten ausgeführt
+
 	handleRedirect(msg) {
 
 		console.log("handleRedirect wurde erreicht");
