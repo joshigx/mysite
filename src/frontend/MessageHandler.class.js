@@ -27,7 +27,13 @@ export class MessageHandler {
 	}
 
 	handleShowAnswers(msg) {
-		this.uic.find("all-answers").innerHTML = msg.answers;
+		console.log(msg.answers);
+		
+		//in msg.answers sind die antworten enthalten
+		//this.uic.find("all-answers").innerHTML = msg.answers;
+
+	
+
 	}
 
 	handleShowAdminPanel() {
