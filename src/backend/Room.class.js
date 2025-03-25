@@ -1,7 +1,7 @@
 
 export class Room {
 	constructor(name, password, admin) {
-		
+
 		this.name = name;
 		this.password = password;
 
@@ -10,6 +10,8 @@ export class Room {
 
 		//hier sind alle antworten gespeichert
 		this.allAnswers = [];
+
+		this.randomAnswers = [];
 
 		//hier ist die connection-instanz des admin/erstellers gepseichert
 		this.admin = admin;
@@ -64,9 +66,9 @@ export class Room {
 
 
 	startResultListener() {
-		console.log("showResults() wurde aufgerufen");
 
-		//Die Bedingung die gecheckt wird
+
+		//Die Bedingung die immer wieder  gecheckt wird
 		const conditionFunction = () => {
 
 			const condition = (this.clients.size === this.allAnswers.length);
@@ -84,9 +86,10 @@ export class Room {
 				this.open = false;
 				this.randomize(this.allAnswers);
 				function getAnswers(array) { 
-					const result = array.map((el, i) => `${String.fromCharCode(65 + i)}: ${el}`).join("<br> <br>"); 
-					return result;
+					this.randomAnswers = array.map((el, i) => `${String.fromCharCode(65 + i)}: ${el}`).join("<br> <br>"); 
+					return this.randomAnswers;
 				}
+				
 				const msg = {
 					type: "show-answers",
 					answers: getAnswers(this.allAnswers),
