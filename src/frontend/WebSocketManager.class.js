@@ -27,6 +27,8 @@ export class WebSocketManager {
 
 
 	message(e) {
+		//Die eigentliche Verarbeitung der Nachrichten geschieht über die UIController Klasse in der MessageHandler-Klasse
+		//Hier wird nur die Nachricht an die UIController-Klasse weitergegeben
 		this.uic.handleMessage(e);	
 	}
 

@@ -65,7 +65,7 @@ export class Server {
 
 		// Liste der statischen Dateien und Verzeichnisse, die direkt bereitgestellt werden sollen
 		const staticPaths = ['/style.css', '/frontend.js', '/portfolio.js', '/WebSocketManager.class.js',
-			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js',
+			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', '/DragManager.class.js',
 			'/fonts', '/images'];
 
 		// Prüfen, ob der Pfad eine statische Ressource ist

@@ -37,6 +37,24 @@ body {
   line-height: 1.6;
 }
 
+.karte {
+  position: absolute;
+  border: 1px solid var(--main-color);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  margin: 20px 0;
+  background-color: var(--dark-bg);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  display: inline-block;
+  text-align: center;
+  color: var(--text-light);
+  cursor: move;
+  user-select: none;
+
+ 
+}
+
 /* Navigation */
 .navbar {
   position: fixed;

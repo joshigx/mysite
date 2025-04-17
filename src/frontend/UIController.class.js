@@ -3,6 +3,7 @@
 
 import { Buttons } from "./Buttons.class.js";
 import { MessageHandler } from "./MessageHandler.class.js";
+import { DragManager } from "./DragManager.class.js";
 export class UIController {
 
 	constructor(document, websocketManager) {
@@ -14,19 +15,29 @@ export class UIController {
 		
 		this.messagehandler = new MessageHandler(this);
 		this.btn = new Buttons(this);
+		this.dragManager = new DragManager(this);
+		this.dragManager.makeDraggable("test-objekt");
 	}
 
+	//abkürzung für document.getElementById
+	//Hiermit kann ich auf alle Elemente zugreifen, die ich brauche
+	//und muss nicht immer document.getElementById schreiben
 	find(obj) {
 		const found = this.document.getElementById(obj);
 		return found;
 	}
 
+	//send() sendet die Nachricht an den Server
 	send(msg) {
 		this.websocketManager.send(msg)
 	}
 
+
+	//Hier wird die Nachricht verarbeitet, die vom Server kommt
+
 	handleMessage(e) {
 
+		//Zuerst wird die Nachricht in ein JSON-Objekt umgewandelt
 		try {
 			const string = e.data
 			const msg = JSON.parse(e.data);
@@ -50,7 +61,7 @@ export class UIController {
 
 
 			if (handlers[msg.type]) {
-				handlers[msg.type]()
+				handlers[msg.type]();
 
 			}
 
@@ -69,6 +80,8 @@ export class UIController {
 		}
 
 	}
+
+
 
 
 
