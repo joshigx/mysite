@@ -1,80 +1,111 @@
 export class DragManager {
     constructor(uiController) {
         this.uic = uiController;
-        this.draggableElements = new Map(); // Speichert alle draggable Elemente
+        this.draggableElements = new Map();
+        this.activeElement = null;
+        
+        // Initialisierung der Event-Listener
+        this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+        // Maus-Events
+        this.onMouseMove = this.handleMouseMove.bind(this);
+        this.onMouseUp = this.handleMouseUp.bind(this);
+        
+        // Füge globale Event-Listener hinzu
+        window.addEventListener('mousemove', this.onMouseMove, { capture: true });
+        window.addEventListener('mouseup', this.onMouseUp, { capture: true });
     }
 
-    // Element draggable machen
     makeDraggable(elementId) {
-        console.log("DragManager: makeDraggable wurde aufgerufen");
+        console.log("DragManager: makeDraggable wurde aufgerufen für", elementId);
         
         const element = this.uic.find(elementId);
         if (!element) {
             console.error(`Element mit ID ${elementId} nicht gefunden`);
             return;
         }
-
-        // Position absolut setzen, falls noch nicht geschehen
+        
+        // Setze Styling für das draggable Element
         element.style.position = 'absolute';
         element.style.cursor = 'move';
         element.style.userSelect = 'none';
         
-        // Tracking-Variablen
-        let isDragging = false;
-        let offsetX, offsetY;
+        // Mache die initiale Position verfügbar (falls nicht gesetzt)
+        if (!element.style.left && !element.style.top) {
+            const rect = element.getBoundingClientRect();
+            element.style.left = rect.left + 'px';
+            element.style.top = rect.top + 'px';
+        }
         
-        // Event-Listener
-        const mouseDownHandler = (e) => {
-            isDragging = true;
-            offsetX = e.clientX - element.getBoundingClientRect().left;
-            offsetY = e.clientY - element.getBoundingClientRect().top;
-            e.preventDefault();
-        };
+        // Erstelle Mousedown-Handler
+        const onMouseDown = this.handleMouseDown.bind(this, element);
+        element.addEventListener('mousedown', onMouseDown);
         
-        const mouseMoveHandler = (e) => {
-            if (!isDragging) return;
-            
-            const x = e.clientX - offsetX;
-            const y = e.clientY - offsetY;
-            
-            element.style.left = x + 'px';
-            element.style.top = y + 'px';
-        };
-        
-        const mouseUpHandler = () => {
-            isDragging = false;
-        };
-        
-        // Event-Listener hinzufügen
-        element.addEventListener('mousedown', mouseDownHandler);
-        document.addEventListener('mousemove', mouseMoveHandler);
-        document.addEventListener('mouseup', mouseUpHandler);
-        
-        // Listener in Map speichern, um sie später entfernen zu können
+        // Speichere die Konfiguration
         this.draggableElements.set(elementId, {
             element,
             listeners: {
-                mousedown: mouseDownHandler,
-                mousemove: mouseMoveHandler,
-                mouseup: mouseUpHandler
+                mousedown: onMouseDown
             }
         });
         
         return element;
     }
     
-    // Element nicht mehr draggable machen
+    handleMouseDown(element, e) {
+        // Vermeide Bubbling
+        e.stopPropagation();
+        e.preventDefault();
+        
+        // Setze das aktive Element
+        this.activeElement = element;
+        
+        // Speichere den Offset, damit Elemente nicht zum Cursor springen
+        const rect = element.getBoundingClientRect();
+        this.offsetX = e.clientX - rect.left;
+        this.offsetY = e.clientY - rect.top;
+    }
+    
+    handleMouseMove(e) {
+        if (!this.activeElement) return;
+        
+        // Vermeide Standardaktionen wie Text-Selektion
+        e.preventDefault();
+        
+        // Berechne die neue Position
+        // Verwende direkte Position mit Offset-Korrektur
+        const x = e.clientX - this.offsetX;
+        const y = e.clientY - this.offsetY;
+        
+        // Setze die neue Position sofort für beste Responsivität
+        this.activeElement.style.left = x + 'px';
+        this.activeElement.style.top = y + 'px';
+    }
+    
+    handleMouseUp() {
+        this.activeElement = null;
+    }
+    
     removeDraggable(elementId) {
         const dragData = this.draggableElements.get(elementId);
         if (!dragData) return;
         
         const { element, listeners } = dragData;
-        
         element.removeEventListener('mousedown', listeners.mousedown);
-        document.removeEventListener('mousemove', listeners.mousemove);
-        document.removeEventListener('mouseup', listeners.mouseup);
         
         this.draggableElements.delete(elementId);
     }
+    
+    // Cleanup
+    destroy() {
+        window.removeEventListener('mousemove', this.onMouseMove, { capture: true });
+        window.removeEventListener('mouseup', this.onMouseUp, { capture: true });
+        
+        // Entferne alle draggable-Funktionalitäten
+        for (const [elementId] of this.draggableElements) {
+            this.removeDraggable(elementId);
+        }
+    }
 }
-
