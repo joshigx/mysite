@@ -65,7 +65,7 @@ export class Server {
 
 		// Liste der statischen Dateien und Verzeichnisse, die direkt bereitgestellt werden sollen
 		const staticPaths = ['/style.css', '/frontend.js', '/portfolio.js', '/WebSocketManager.class.js',
-			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', '/DragManager.class.js',
+			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', '/DragManager.class.js', '/Stammbaum.class.js',
 			'/fonts', '/images'];
 
 		// Prüfen, ob der Pfad eine statische Ressource ist
@@ -97,6 +97,10 @@ export class Server {
 					// Hauptseite (Portfolio)
 					filePath = `${basePath}/blog.html`;
 					break;
+				case "/stammbaum":
+						// Hauptseite (Portfolio)
+						filePath = `${basePath}/stammbaum.html`;
+						break;
 
 				default:
 					return new Response("404: Page Not Found", {
