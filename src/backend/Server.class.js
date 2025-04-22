@@ -99,8 +99,16 @@ export class Server {
 					break;
 				case "/stammbaum":
 						// Hauptseite (Portfolio)
-						filePath = `${basePath}/stammbaum.html`;
+						filePath = `${basePath}/stammbaum/index.html`;
 						break;
+				case "/stammbaum/graph":
+						// Hauptseite (Portfolio)
+						filePath = `${basePath}/stammbaum/graph.html`;
+						break;
+				case "/stammbaum/person":
+					// Hauptseite (Portfolio)
+					filePath = `${basePath}/stammbaum/person.html`;
+					break;
 
 				default:
 					return new Response("404: Page Not Found", {
