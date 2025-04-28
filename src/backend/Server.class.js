@@ -65,8 +65,8 @@ export class Server {
 
 		// Liste der statischen Dateien und Verzeichnisse, die direkt bereitgestellt werden sollen
 		const staticPaths = ['/style.css', '/frontend.js', '/portfolio.js', '/WebSocketManager.class.js',
-			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', '/DragManager.class.js', '/Stammbaum.class.js',
-			'/fonts', '/images'];
+			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', '/DragManager.class.js',
+			'/fonts', '/images', '/stammbaum/stammbaum.js'];
 
 		// Prüfen, ob der Pfad eine statische Ressource ist
 		const isStaticResource = staticPaths.some(path => url.pathname.startsWith(path));
@@ -126,6 +126,8 @@ export class Server {
 		try {
 			// Den Inhalt der Datei lesen
 			const file = await Deno.open(filePath, { read: true });
+			
+			
 			const ext = filePath.split(".").pop();
 
 			// Den richtigen Content-Type für die Datei festlegen
@@ -144,6 +146,8 @@ export class Server {
 				"woff": "font/woff",
 				"woff2": "font/woff2"
 			};
+
+		
 			const contentType = types[ext] || "application/octet-stream";
 
 			return new Response(file.readable, {
