@@ -64,9 +64,21 @@ export class Server {
 		let filePath = `${basePath}${url.pathname}`;
 
 		// Liste der statischen Dateien und Verzeichnisse, die direkt bereitgestellt werden sollen
-		const staticPaths = ['/style.css', '/frontend.js', '/portfolio.js', '/WebSocketManager.class.js',
-			'/UIController.class.js', '/MessageHandler.class.js', '/Buttons.class.js', '/DragManager.class.js', '/Stammbaum.class.js',
-			'/fonts', '/images'];
+		const staticPaths = [
+			'/style.css', 
+			'/frontend.js', 
+			'/portfolio.js', 
+			'/WebSocketManager.class.js',
+			'/UIController.class.js', 
+			'/MessageHandler.class.js', 
+			'/Buttons.class.js', 
+			'/DragManager.class.js', 
+			'/Stammbaum.class.js',
+			'/fonts', 
+			'/images',
+			'/svelte-game/dist/assets/index.css',
+			'/svelte-game/dist/assets/index.js'
+		];
 
 		// Prüfen, ob der Pfad eine statische Ressource ist
 		const isStaticResource = staticPaths.some(path => url.pathname.startsWith(path));
@@ -97,6 +109,11 @@ export class Server {
 					// Hauptseite (Portfolio)
 					filePath = `${basePath}/blog.html`;
 					break;
+				case "/svelte-game":
+						// Hauptseite (Portfolio)
+						filePath = `${basePath}/svelte-game/dist/index.html`;
+						break;
+				
 				case "/stammbaum":
 						// Hauptseite (Portfolio)
 						filePath = `${basePath}/stammbaum.html`;
