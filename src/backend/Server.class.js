@@ -77,7 +77,8 @@ export class Server {
 			'/fonts', 
 			'/images',
 			'/svelte-game/dist/assets/index.css',
-			'/svelte-game/dist/assets/index.js'
+			'/svelte-game/dist/assets/index.js',
+			'/svelte-game/dist/vite.svg',
 		];
 
 		// Prüfen, ob der Pfad eine statische Ressource ist
