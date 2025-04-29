@@ -1,9 +1,9 @@
 // Hier kommt nur der Code rein, der Veränderungen in der UI hervorruft
 //Also alles, was die sichtbare Seite verändert
 
-import { Buttons } from "./Buttons.class.js";
-import { MessageHandler } from "./MessageHandler.class.js";
-import { DragManager } from "./DragManager.class.js";
+import { Buttons } from "/Buttons.class.js";
+import { MessageHandler } from "/MessageHandler.class.js";
+import { DragManager } from "/DragManager.class.js";
 export class UIController {
 
 	constructor(document, websocketManager) {

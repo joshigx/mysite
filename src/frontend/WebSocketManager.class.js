@@ -1,4 +1,4 @@
-import { UIController } from "./UIController.class.js";
+import { UIController } from "/UIController.class.js";
 
 export class WebSocketManager {
 
