@@ -45,10 +45,7 @@ export class WebSocketManager {
 
 	//Funktionen, die mit dem Server kommunizieren
 
-	send(msg) {
-		this.websocket.send(JSON.stringify(msg))
-	}
-
+	
 	sendServerLog(log) {
 		this.send({
 			type: "log",
