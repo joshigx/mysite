@@ -250,9 +250,6 @@ export class Connection {
 		this.room.broadcast(msg);
 	}
 
-
-
-
 	handleSubmit(msg) {
 
 		const answer = msg.text;
