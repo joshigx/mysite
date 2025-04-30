@@ -2,6 +2,8 @@
   import { WebSocketManager } from "./Socket.class.js";
 
   const websocket = new WebSocketManager(document);
+  console.log("Websocketverbindung läuft unter: '" + websocket.wsUri);
+  
   let nachricht = $state("Hallo Server");
 
   function sendNachricht(text) {
@@ -12,7 +14,6 @@
     };
 
     websocket.send(JSON.stringify(msg));
-    console.log("Button gedrückt");
   }
 </script>
 

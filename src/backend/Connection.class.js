@@ -54,6 +54,9 @@ export class Connection {
 				case "restart":
 					this.handleRestart();
 					break;
+				case "chatAll":
+					this.handleBroadcast(msg);
+					break;
 				default:
 					console.log("Unbekannte Nachricht ist eingetroffen", msg);
 					break;
@@ -276,7 +279,12 @@ export class Connection {
 
 	}
 
+	handleBroadcast(msg) {
+		console.log("handleBroadcast wurde erreicht");
+		
+		this.alert("Folgenden Text hat der Server empfangen: "+ msg.text);
 
+	}
 
 
 }

@@ -1,4 +1,4 @@
-
+import {RecieveHandler} from "./RecieveHandler.js";
 export class WebSocketManager {
 
     constructor (document) {
@@ -13,6 +13,7 @@ export class WebSocketManager {
 		this.websocket.addEventListener("message", this.message.bind(this));
 		this.websocket.addEventListener("close", this.close.bind(this));
 		this.websocket.addEventListener("error", this.error.bind(this));
+		this.recieveHandler = new RecieveHandler(this);
 		
 		
 
@@ -27,7 +28,7 @@ export class WebSocketManager {
 
 
 	message(e) {
-		
+		this.recieveHandler.handleIncomingMessage(e);
 	}
 
 
@@ -40,8 +41,8 @@ export class WebSocketManager {
 	}
 
 	
-	send(test) {
-		this.websocket.send(test);
+	send(msg) {
+		this.websocket.send(msg);
 	}
 
     sendServerLog(log) {
