@@ -1,5 +1,7 @@
 <script>
-  import SendToServerButton from "./SendToServerButton.svelte";
+  import SendToServerButton from "./lib/SendToServerButton.svelte";
+
+
   let nachricht = $state("");
 </script>
 
