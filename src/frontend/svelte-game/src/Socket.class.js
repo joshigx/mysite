@@ -40,18 +40,6 @@ export class WebSocketManager {
 	}
 
 	
-	msg2Server(text) {
-		const msg = {
-					  type: "chatAll",
-					  text: text,
-					  date: Date.now(),
-				  };
-			  
-		this.websocket.send(JSON.stringify(msg));
-		console.log("Button gedrückt");
-		
-	}
-
 	send(test) {
 		this.websocket.send(test);
 	}
