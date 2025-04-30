@@ -2,9 +2,9 @@
   import { WebSocketManager } from "./Socket.class.js";
 
   const websocket = new WebSocketManager(document);
-  let msgToServer = $state("Hallo Server");
+  let nachricht = $state("Hallo Server");
 
-  function msg2Server(text) {
+  function sendNachricht(text) {
     const msg = {
       type: "chatAll",
       text: text,
@@ -17,9 +17,10 @@
 </script>
 
 <div>
-  <input bind:value={msgToServer} />
+    
+  <input bind:value={nachricht} />
 
-  <button onclick={() => msg2Server(msgToServer)}>
+  <button onclick={() => sendNachricht(nachricht)}>
     Send message to server v2
   </button>
 </div>
