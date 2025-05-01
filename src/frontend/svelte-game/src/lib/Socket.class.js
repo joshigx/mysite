@@ -9,11 +9,12 @@ export class WebSocketManager {
 		//this.wsUri = `${this.protocol}://${window.location.host}/`;
 		this.wsUri = `${this.protocol}://${window.location.host}/${window.location.pathname}`;
 		this.websocket = new WebSocket(this.wsUri);
+		this.recieveHandler = new RecieveHandler(this);
 		this.websocket.addEventListener("open", this.open.bind(this))
 		this.websocket.addEventListener("message", this.message.bind(this));
 		this.websocket.addEventListener("close", this.close.bind(this));
 		this.websocket.addEventListener("error", this.error.bind(this));
-		this.recieveHandler = new RecieveHandler(this);
+		
 		
 		
 
