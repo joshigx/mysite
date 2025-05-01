@@ -1,45 +1,46 @@
 <script>
-  import SendToServerButton from "./lib/SendToServerButton.svelte";
+  
   import About from "./routes/About.svelte";
   import Home from "./routes/Home.svelte";
-  import Standard from "./routes/Standard.svelte";
-  import { fade } from "svelte/transition";
+  import Playground from "./routes/Playground.svelte"
+  import Game from "./routes/Game.svelte";
+  import Standard from "./routes/default.svelte";
+  import { onMount, onDestroy } from "svelte";
 
-  let visible = $state(true);
 
-  let nachricht = $state("");
 
-  let CurrentPage = $state(Standard);
+  let CurrentPage = $state();
+  CurrentPage = Home;
+  // Initialisiere den Hash-Wert
+  let hash = $state(window.location.hash.substring(1) || "/");
+
+
+
+  onMount(() => {
+    // Event-Listener für Hash-Änderungen hinzufügen
+    window.addEventListener("hashchange", updateHash);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("hashchange", updateHash);
+  });
+
+  // Funktion zum Aktualisieren des Hash-Werts
+  function updateHash() {
+    hash = window.location.hash.substring(1) || "/";
+  }
 </script>
 
 <main>
-  <label for="seiten-auswahl"></label>
-
-  <select id="seiten-auswahl" bind:value={CurrentPage}>
-    <option value={About}>About</option>
-    <option value={Home}>Home</option>
-  </select>
+  <p>Aktueller Pfad: {hash}</p>
+  <a onclick={()=> {CurrentPage=Home}} href="#/">Home</a>
+  <br>
+  <a onclick={()=> {CurrentPage=Playground}} href="#/playground">Spielwiese</a>
+  <br>
+  <a onclick={()=> {CurrentPage=Game}} href="#/game">Wer denkt was?</a>
 
   <CurrentPage />
 
-  <nav class="menu">
-    <ul>
-      <li><a onclick={()=> {CurrentPage = Home}} href="#/home">Home</a></li>
-      <li><a onclick={()=> {CurrentPage = About}} href="/svelte-game#/about">About</a></li>
-    </ul>
-  </nav>
 
 
-  <label>
-    <input type="checkbox" bind:checked={visible} />
-    visible
-  </label>
-
-  {#if visible}
-    <p>Fades in and out</p>
-  {/if}
-
-  <SendToServerButton />
-
-  <p>Folgende Nachricht erhalten: {nachricht}</p>
 </main>
