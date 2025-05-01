@@ -22,6 +22,14 @@
 
   <CurrentPage />
 
+  <nav class="menu">
+    <ul>
+      <li><a onclick={()=> {CurrentPage = Home}} href="#/home">Home</a></li>
+      <li><a onclick={()=> {CurrentPage = About}} href="/svelte-game#/about">About</a></li>
+    </ul>
+  </nav>
+
+
   <label>
     <input type="checkbox" bind:checked={visible} />
     visible
