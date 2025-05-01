@@ -17,6 +17,8 @@
   //Pfad mit Component verknüpfen
   const routes = new Map([
     ["#/", Home],
+    ["/", Home],
+    ["", Home],
     ["#/playground", Playground],
     ["#/game", Game],
     
