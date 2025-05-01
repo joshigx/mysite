@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: 'MyWebFont';
-  src: url("./fonts/Inter-VariableFont_opsz\wght.ttf") format('truetype');
+  src: url("/home/deno-server/Schreibtisch/deno/server_josua/src/frontend/fonts/Inter-VariableFont_opszwght.ttf") format('truetype');
 }
 
 * {

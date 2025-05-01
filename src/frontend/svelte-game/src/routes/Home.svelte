@@ -1,5 +1,7 @@
-<script>
 
+
+<script>
+let test = $state(0);
 
 </script>
 

@@ -9,15 +9,27 @@
 
 
 
-  let CurrentPage = $state();
-  CurrentPage = Home;
-  // Initialisiere den Hash-Wert
-  let hash = $state(window.location.hash.substring(1) || "/");
+  
 
+  //Aktuellen Pfad auslesen
+  let hash = $state(window.location.hash.substring(0) || "/");
+  
+  //Pfad mit Component verknüpfen
+  const routes = new Map([
+    ["#/", Home],
+    ["#/playground", Playground],
+    ["#/game", Game],
+    
+
+  ]);
+
+  let CurrentPage = $state();
+  CurrentPage = (routes.get(hash));
 
 
   onMount(() => {
     // Event-Listener für Hash-Änderungen hinzufügen
+
     window.addEventListener("hashchange", updateHash);
   });
 
@@ -27,8 +39,16 @@
 
   // Funktion zum Aktualisieren des Hash-Werts
   function updateHash() {
-    hash = window.location.hash.substring(1) || "/";
+    hash = window.location.hash.substring(0) || "/";
+    CurrentPage = (routes.get(hash));
+    
   }
+
+
+
+
+
+
 </script>
 
 <main>
