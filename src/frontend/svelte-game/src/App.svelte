@@ -26,7 +26,8 @@
   ]);
 
   let CurrentPage = $state();
-  CurrentPage = (routes.get(hash));
+  // svelte-ignore state_referenced_locally
+    CurrentPage = (routes.get(hash));
 
 
   onMount(() => {
@@ -55,6 +56,7 @@
 
 <main>
   <p>Aktueller Pfad: {hash}</p>
+  <!-- svelte-ignore a11y_invalid_attribute -->
   <a onclick={()=> {CurrentPage=Home}} href="#">Home</a>
   <br>
   <a onclick={()=> {CurrentPage=Playground}} href="#playground">Spielwiese</a>
