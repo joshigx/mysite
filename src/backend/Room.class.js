@@ -1,9 +1,8 @@
 
 export class Room {
-	constructor(name, password, admin) {
+	constructor(id) {
 
-		this.name = name;
-		this.password = password;
+		this.id = id;
 
 		//hier werden die jeweiligen Nutzer gespeichert, zugehörige key: uuid, value: connection-instanz
 		this.clients = new Map();
@@ -12,7 +11,7 @@ export class Room {
 		this.allAnswers = [];
 
 		//hier ist die connection-instanz des admin/erstellers gepseichert
-		this.admin = admin;
+		//this.admin = admin;
 
 		//gibt an, ob man dem raum beitreten kann
 		this.open = true;

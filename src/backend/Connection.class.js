@@ -11,6 +11,7 @@ export class Connection {
 
 	constructor(socket, server) {
 		this.socket = socket;
+		this.room;
 
 		
 		this.server = server;
@@ -57,6 +58,9 @@ export class Connection {
 				case "chatAll":
 					this.handleBroadcast(msg);
 					break;
+				case "leftRoom":
+					//TODO Weitermachen
+					break
 				default:
 					console.log("Unbekannte Nachricht ist eingetroffen", msg);
 					break;
@@ -175,29 +179,54 @@ export class Connection {
 	 * @param {JSON} msg 
 	 */
 	handleCreateRoom(msg) {
-		console.log("Raumerstellungsanfrage erhalten");
-		const name = msg.nameRoomToCreate;
-		const password = msg.passwordRoomToCreate;
-		const admin = this;
-		//Prüft ob es der Raum bereits existiert: Dann Meldung geben und Raum nicht erstellen
-		if (this.server.rooms.has(name)) {
-			this.socket.send(msg);
-			console.log("Raum existiert bereits");
-			this.alert("Raum existiert bereits");
-		} else {
-			// Erstelle eine neue Instanz der Raum Klasse mit dem Namen und dem Passwort des Raumes
-			const room = new Room(name, password, admin);
-			//Erstellt einen Eintrag in der Map rooms. key: Raumname, Value: Raum Objekt Instanz
-			this.server.rooms.set(name, room);
 
-			// Setzt den aktuelle Raum des zu erstellenden Nutzers auf seinen erstellten Raum
-			this.room = room;
-			this.room.clients.set(this.uuid, this)
-			this.room.startResultListener();
+		function generateRoomID(length) {
+			const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		
+			// Konvertiere den String in ein Array von Zeichen
+			const charactersArray = characters.split("");
+		
+			// Fisher-Yates Shuffle
+			for (let i = charactersArray.length - 1; i > 0; i--) {
+			  const j = Math.floor(Math.random() * (i + 1));
+			  [charactersArray[i], charactersArray[j]] = [
+				charactersArray[j],
+				charactersArray[i],
+			  ];
+			}
+		
+			// Nehme die ersten 'length' Zeichen vom gemischten Array
+			let roomID = charactersArray.slice(0, length).join("");
+			return roomID;
+		  }
 
-			this.redirect("room");
-			this.sendLoginInfo();
-		}
+		
+			let  id = generateRoomID(6);
+			//TODO
+			// Überprüfung ob es den Raum schon gibt
+			//this.server.rooms durchsuchen
+
+		  //Erstellt einen Raum mit einer zufälligen ID
+		  const room = new Room(id);
+
+		  //Fügt den Raum der Raumliste des Server hinzu, Key: room.id, value: room-Instanz
+		  this.server.rooms.set(room.id, room);
+
+
+		  //Setz die "In-welchem-Raum-ist-der-Nutzer"-Variable des Nutzers auf seinen erstellten Raum
+		  this.room = room;
+
+		  //Fügt den Nutzer der Nutzerliste des Raums hinzu
+		  this.room.clients.set(this.uuid, this);
+
+		  //Antwort an CLient senden
+
+		  this.send({
+			type: "forwardToRoom",
+			id: id,
+		});
+
+
 	}
 
 	/**

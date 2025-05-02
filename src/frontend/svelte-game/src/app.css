@@ -60,7 +60,13 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
+
+button:active {
+  transform: translateY(1px); /* Button leicht nach unten verschieben */
+  /* box-shadow: inset 0 3px 5px rgba(70, 70, 70, 0.422); Innerer Schatten für 3D-Effekt */
+  background-color: #111111;; /* Leicht dunklerer Hintergrund */
+}
+
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
