@@ -28,7 +28,7 @@
 </script>
 
 <h1>Spielwiese</h1>
-<p>Hier werden FUnktionen usw ausprobiert</p>
+<p>Hier werden Funktionen usw ausprobiert</p>
 <p>Hash-Wert (durch Props) ist: {hash}</p>
 <h1>Zufälliger Code</h1>
 <p>Zufälliger Code aus Großbuchstaben und Zahlen</p>
@@ -50,4 +50,4 @@
   <p>Fades in and out</p>
 {/if}
 
-<SendToServerButton />
+<SendToServerButton btnLabel = {"Dieses Label komm aus der Playground.svelte-Datei"} msgType = {"testPropmsgType"} defaultMsg = {"Hallo Server"} origin = {hash}/>

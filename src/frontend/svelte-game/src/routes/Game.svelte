@@ -20,9 +20,7 @@ let roomID = $state("");
 <h1>Wer denkt was?</h1>
 <p>aktueller Raum: </p>
 
-<SendToServerButton btnLabel = {"Dieses Label komm aus der Game.svelte-Datei"} msgType = {"testPropmsgType"}/>
-
-
+<SendToServerButton btnLabel = {"Dieses Label komm aus der Game.svelte-Datei"} msgType = {"testPropmsgType"} defaultMsg = {"default prop message"}/>
 
 
 </main>
