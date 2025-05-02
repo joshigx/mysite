@@ -1,9 +1,11 @@
 <script>
 
+let { hash } = {};
 let t = $state(0);
 
-let roomName = "";
-let roomPassword = "";
+
+let roomID = $state("");
+
 </script>
 
 

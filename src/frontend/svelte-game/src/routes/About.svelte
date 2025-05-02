@@ -1,8 +1,7 @@
 <script>
-
-    let test = $state(0);
+  let { hash } = {};
+  let test = $state(0);
 </script>
-
 
 <h>About</h>
 <p>Das ist das About Element</p>

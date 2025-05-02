@@ -19,8 +19,8 @@
     ["#/", Home],
     ["/", Home],
     ["", Home],
-    ["#/playground", Playground],
-    ["#/game", Game],
+    ["#playground", Playground],
+    ["#game", Game],
     
 
   ]);
@@ -55,13 +55,13 @@
 
 <main>
   <p>Aktueller Pfad: {hash}</p>
-  <a onclick={()=> {CurrentPage=Home}} href="#/">Home</a>
+  <a onclick={()=> {CurrentPage=Home}} href="#">Home</a>
   <br>
-  <a onclick={()=> {CurrentPage=Playground}} href="#/playground">Spielwiese</a>
+  <a onclick={()=> {CurrentPage=Playground}} href="#playground">Spielwiese</a>
   <br>
-  <a onclick={()=> {CurrentPage=Game}} href="#/game">Wer denkt was?</a>
+  <a onclick={()=> {CurrentPage=Game}} href="#game">Wer denkt was?</a>
 
-  <CurrentPage />
+  <CurrentPage hash={hash} />
 
 
 
