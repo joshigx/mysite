@@ -1,5 +1,5 @@
 <script>
-
+let { hash } = $props();
 let test = $state(0);
 
 </script>

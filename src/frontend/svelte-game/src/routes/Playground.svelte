@@ -1,5 +1,5 @@
 <script>
-  let { hash } = {};
+  let { hash } = $props();
   import SendToServerButton from "/home/deno-server/Schreibtisch/deno/server_josua/src/frontend/svelte-game/src/lib/SendToServerButton.svelte";
 
   let visible = $state(true);

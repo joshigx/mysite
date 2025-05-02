@@ -1,6 +1,6 @@
 <script>
 
-let { hash } = {};
+let { hash } = $props();
 let t = $state(0);
 
 
