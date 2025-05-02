@@ -29,6 +29,7 @@
 
 <h1>Spielwiese</h1>
 <p>Hier werden FUnktionen usw ausprobiert</p>
+<p>Hash-Wert (durch Props) ist: {hash}</p>
 <h1>Zufälliger Code</h1>
 <p>Zufälliger Code aus Großbuchstaben und Zahlen</p>
 <p>Länge des Codes (zwischen 0 und 36) <input bind:value={length} /></p>

@@ -5,10 +5,11 @@
   console.log("Websocketverbindung läuft unter: '" + websocket.wsUri);
   
   let nachricht = $state("Hallo Server");
+  let {btnLabel = "Nachricht an Server senden", msgType ="chatAll"} = $props();
 
   function sendNachricht(text) {
     const msg = {
-      type: "chatAll",
+      type: msgType,
       text: text,
       date: Date.now(),
     };
@@ -18,10 +19,8 @@
 </script>
 
 <div>
-    
   <input bind:value={nachricht} />
-
   <button onclick={() => sendNachricht(nachricht)}>
-    Send message to server v2
+    {btnLabel}
   </button>
 </div>
