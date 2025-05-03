@@ -7,6 +7,9 @@ export class Room {
 		//hier werden die jeweiligen Nutzer gespeichert, zugehörige key: uuid, value: connection-instanz
 		this.clients = new Map();
 
+		
+		this.names = new Map();
+
 		//hier sind alle antworten gespeichert
 		this.allAnswers = [];
 

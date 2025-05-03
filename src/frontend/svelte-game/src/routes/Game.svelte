@@ -9,10 +9,11 @@
   console.log("Websocketverbindung läuft unter: '" + websocket.wsUri);
   websocket.websocket.addEventListener("message", message.bind(this));
 
-
   let pageStatus = $state(0);
   let lobbyCode = $state("");
   let joinLobbyCode = $state("");
+  let userList = $state([]);
+  let userName = $state("");
 
   //Hier können wir auf eingehende Nachrichten reagieren
   function message(e) {
@@ -22,14 +23,23 @@
       console.log(string);
 
       const handlers = {
-        forwardToRoom: () => (lobbyCode = msg.id),
+        forwardToRoom: () => {
+          lobbyCode = msg.id;
+        },
+        setUserName: () => {
+          userName = msg.userName;
+        },
+        broadcastUserName: () => {
+          userList.push(msg.userName);
+        },
+        loadUserList: () => {
+          userList = msg.userList;
+        },
       };
 
       if (handlers[msg.type]) {
         handlers[msg.type]();
       }
-
-
     } catch (e) {
       console.error(e);
     }
@@ -47,9 +57,7 @@
     websocket.send(JSON.stringify(msg));
   }
 
-  
-  
- function createRoom() {
+  function createRoom() {
     pageStatus = 1;
     sendNachricht("createRoom", "");
   }
@@ -61,18 +69,17 @@
   function navMain() {
     pageStatus = 0;
     sendNachricht("leftRoom");
-    lobbyCode = ("");
+    lobbyCode = "";
   }
 
   function joinRoom() {
     sendNachricht("joinRoom", joinLobbyCode);
-    
+    pageStatus = 1;
   }
 </script>
 
 <main>
   <h1>Wer denkt was?</h1>
-  
 
   {#if pageStatus === 0}
     <div>
@@ -85,7 +92,11 @@
     <button onclick={navMain}>Hauptmenü</button>
 
     <p>aktueller Raum: {lobbyCode}</p>
-    <div><GameLobby {hash} /></div>
+    <p>dein Name: {userName}</p>
+    <p>wer ist mit im Raum: {userList}</p>
+    <div>
+      <GameLobby {hash} {websocket} />
+    </div>
   {/if}
 
   {#if pageStatus === 2}

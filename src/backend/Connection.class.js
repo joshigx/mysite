@@ -13,7 +13,7 @@ export class Connection {
 		this.socket = socket;
 		this.room;
 
-		
+
 		this.server = server;
 		//in this.server.clients sind alle clients gespeichert
 		//this.server.clients ist eine map, key ist die uuid und value die instanz der jeweiligen connection
@@ -58,7 +58,10 @@ export class Connection {
 				case "joinRoom":
 					this.handleJoinRoom(msg);
 					break
-				
+				case "getUserName":
+					this.handleGetUserName(msg);
+					break;
+
 				default:
 					console.log("Unbekannte Nachricht ist eingetroffen", msg);
 					break;
@@ -167,52 +170,52 @@ export class Connection {
 
 		function generateRoomID(length) {
 			const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		
+
 			// Konvertiere den String in ein Array von Zeichen
 			const charactersArray = characters.split("");
-		
+
 			// Fisher-Yates Shuffle
 			for (let i = charactersArray.length - 1; i > 0; i--) {
-			  const j = Math.floor(Math.random() * (i + 1));
-			  [charactersArray[i], charactersArray[j]] = [
-				charactersArray[j],
-				charactersArray[i],
-			  ];
+				const j = Math.floor(Math.random() * (i + 1));
+				[charactersArray[i], charactersArray[j]] = [
+					charactersArray[j],
+					charactersArray[i],
+				];
 			}
-		
+
 			// Nehme die ersten 'length' Zeichen vom gemischten Array
 			let roomID = charactersArray.slice(0, length).join("");
 			return roomID;
-		  }
-
-		
-			let  id = generateRoomID(6);
-			//TODO
-			// Überprüfung ob es den Raum schon gibt
-			//this.server.rooms durchsuchen
-
-		  //Erstellt einen Raum mit einer zufälligen ID
-		  const room = new Room(id);
-
-		  //Fügt den Raum der Raumliste des Server hinzu, Key: room.id, value: room-Instanz
-		  this.server.rooms.set(room.id, room);
+		}
 
 
-		  //Setz die "In-welchem-Raum-ist-der-Nutzer"-Variable des Nutzers auf seinen erstellten Raum
-		  this.room = room;
+		let id = generateRoomID(6);
+		//TODO
+		// Überprüfung ob es den Raum schon gibt
+		//this.server.rooms durchsuchen
 
-		  //Fügt den Nutzer der Nutzerliste des Raums hinzu
-		  this.room.clients.set(this.uuid, this);
+		//Erstellt einen Raum mit einer zufälligen ID
+		const room = new Room(id);
 
-		  //Antwort an CLient senden
+		//Fügt den Raum der Raumliste des Server hinzu, Key: room.id, value: room-Instanz
+		this.server.rooms.set(room.id, room);
 
-		  this.send({
+
+		//Setz die "In-welchem-Raum-ist-der-Nutzer"-Variable des Nutzers auf seinen erstellten Raum
+		this.room = room;
+
+		//Fügt den Nutzer der Nutzerliste des Raums hinzu
+		this.room.clients.set(this.uuid, this);
+
+		//Antwort an CLient senden
+
+		this.send({
 			type: "forwardToRoom",
 			id: id,
 		});
 
 		console.log("Raum erstellt:" + id);
-		
+
 
 
 	}
@@ -225,59 +228,115 @@ export class Connection {
 
 	handleLeftRoom() {
 
-		
+
 		//Entfernt den Nutzer aus der Nutzerliste des Raums
 		this.room.clients.delete(this.uuid);
 		let raum_id = this.room.id;
 		console.log("Der Nutzer '" + this.uuid + "' hat den Raum '" + raum_id + "' verlassen");
-		
+
 
 		//Wemm die Nutzerliste des Raums 0 ist
-		if (this.room.clients.size === 0) {		
+		if (this.room.clients.size === 0) {
 
 
 
 			//Raum aus der Raum-Liste des Servers löschen
 			this.server.rooms.delete(this.room.id);
-			console.log("Der Raum '" + raum_id +"' wurde gelöscht, da keine Nutzer mehr in ihm sind");
+			console.log("Der Raum '" + raum_id + "' wurde gelöscht, da keine Nutzer mehr in ihm sind");
 
 		}
 
-		
+
 
 		//Setz die "In-welchem-Raum-ist-der-Nutzer"-Variable des Nutzers auf null
 		this.room = null;
 
-		
 
 
-		
-		
-		
+
+
+
+
 	}
 
 	handleJoinRoom(msg) {
+
 		let requested_id = msg.msg;
 
+		//alle aktuellen Raum-Nutzer, die einen Namen haben laden
+		
 
 		if (this.server.rooms.get(requested_id)) {
 
 
+
+
+			//der aktuelle Raum des Nutzers wird mit dem angefragten Raum gelichgesetzt
 			this.room = this.server.rooms.get(requested_id);
+			//Der Nutzer wird der Nutzerliste des Raumes hinzugefügt
 			this.room.clients.set(this.uuid, this);
+			let userList = [...this.room.names.keys()];
+
+
+			this.send({
+				type: "forwardToRoom",
+				id: requested_id,
+			});
+
+			this.send({
+			type: "loadUserList",
+				userList: userList,
+			 });
 
 			console.log("Der Nutzer: " + this.uuid + " wurde dem Raum: " + this.room.id + " hinzugefügt");
-			
+
+
+
 
 		}
 
 		else {
 
 			this.alert("Der Raum existiert nicht");
-			
+
 		}
 
-			
+
+
+	}
+
+	handleGetUserName(msg) {
+
+		let requestedUserName = msg.text;
+
+
+
+		if (!(this.room.names.has(requestedUserName))) 
+			{
+
+			this.room.names.set(requestedUserName, this.uuid);
+			this.userName = requestedUserName;
+
+			this.send({
+				type: "setUserName",
+				userName: requestedUserName,
+			});
+
+
+			//Sendet den Namen an alle
+			this.room.broadcast({
+				type: "broadcastUserName",
+				userName: requestedUserName,
+				userRoom: this.room.id,
+			});
+
+
+		}
+
+		else {
+			this.alert("Nutzername schon vergeben");
+		}
+
 
 	}
 
@@ -301,7 +360,7 @@ export class Connection {
 
 		const answer = msg.text;
 		this.redirect("waiting");
-		this.room.allAnswers.push(answer); ;
+		this.room.allAnswers.push(answer);;
 		return;
 
 
@@ -325,8 +384,8 @@ export class Connection {
 
 	handleBroadcast(msg) {
 		console.log("handleBroadcast wurde erreicht");
-		
-		this.alert("Folgenden Text hat der Server empfangen: "+ msg.text);
+
+		this.alert("Folgenden Text hat der Server empfangen: " + msg.text);
 
 	}
 

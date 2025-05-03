@@ -89,5 +89,5 @@
     <p>Fades in and out</p>
   {/if}
 
-  <SendToServerButton />
+  <!-- <SendToServerButton /> -->
 </main>

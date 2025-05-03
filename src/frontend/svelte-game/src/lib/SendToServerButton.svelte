@@ -3,16 +3,16 @@
   //Komponente hat folgende Properties: <SendToServerButton btnLabel = {""} msgType = {""} defaultMsg = {""} origin = {hash}/>
   import { WebSocketManager } from "./Socket.class.js";
 
-  const websocket = new WebSocketManager(document);
+  
+  //const defaultWebSocket = new WebSocketManager(document);
+  
+  let {websocket, btnLabel = "Nachricht an Server senden", msgType ="chatAll", defaultMsg = "Hallo Server", origin = ""} = $props();
   console.log("Websocketverbindung läuft unter: '" + websocket.wsUri);
-  
-  
-  let {btnLabel = "Nachricht an Server senden", msgType ="chatAll", defaultMsg = "Hallo Server", origin = ""} = $props();
   let nachricht = $state(defaultMsg);
-  function sendNachricht(text) {
+  function sendNachricht(nachricht) {
     const msg = {
       type: msgType,
-      text: text,
+      text: nachricht,
       date: Date.now(),
       origin: origin,
     };
