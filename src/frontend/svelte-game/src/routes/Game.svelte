@@ -12,6 +12,7 @@
 
   let pageStatus = $state(0);
   let lobbyCode = $state("");
+  let joinLobbyCode = $state("");
 
   //Hier können wir auf eingehende Nachrichten reagieren
   function message(e) {
@@ -21,7 +22,7 @@
       console.log(string);
 
       const handlers = {
-        forwardToRoom: () => (window.location.href = hash + msg.id),
+        forwardToRoom: () => (lobbyCode = msg.id),
       };
 
       if (handlers[msg.type]) {
@@ -48,8 +49,7 @@
 
   
   
-
-  function createRoom() {
+ function createRoom() {
     pageStatus = 1;
     sendNachricht("createRoom", "");
   }
@@ -61,20 +61,18 @@
   function navMain() {
     pageStatus = 0;
     sendNachricht("leftRoom");
+    lobbyCode = ("");
   }
 
-  function joinRoom() {}
+  function joinRoom() {
+    sendNachricht("joinRoom", joinLobbyCode);
+    
+  }
 </script>
 
 <main>
   <h1>Wer denkt was?</h1>
-  <p>aktueller Raum:</p>
-
-  <SendToServerButton
-    btnLabel={"Dieses Label komm aus der Game.svelte-Datei"}
-    msgType={"testPropmsgType"}
-    defaultMsg={"default prop message"}
-  />
+  
 
   {#if pageStatus === 0}
     <div>
@@ -86,6 +84,7 @@
   {#if pageStatus === 1}
     <button onclick={navMain}>Hauptmenü</button>
 
+    <p>aktueller Raum: {lobbyCode}</p>
     <div><GameLobby {hash} /></div>
   {/if}
 
@@ -93,7 +92,7 @@
     <button onclick={navMain}>Hauptmenü</button>
     <div>
       <p>Code eingeben:</p>
-      <input bind:value={lobbyCode} />
+      <input bind:value={joinLobbyCode} />
       <button onclick={joinRoom}>Raum beitreten</button>
     </div>
   {/if}

@@ -37,17 +37,11 @@ export class Connection {
 				case "log":
 					console.log(msg.log);
 					break;
-				case "login":
-					this.handleLogin(msg);
-					break;
 				case "message":
 					this.handleMessage(msg);
 					break;
 				case "submit":
 					this.handleSubmit(msg);
-					break;
-				case "createUser":
-					this.handleCreateUser(msg);
 					break;
 				case "createRoom":
 					this.handleCreateRoom(msg);
@@ -59,8 +53,12 @@ export class Connection {
 					this.handleBroadcast(msg);
 					break;
 				case "leftRoom":
-					//TODO Weitermachen
+					this.handleLeftRoom();
 					break
+				case "joinRoom":
+					this.handleJoinRoom(msg);
+					break
+				
 				default:
 					console.log("Unbekannte Nachricht ist eingetroffen", msg);
 					break;
@@ -81,8 +79,9 @@ export class Connection {
 		try {
 			console.log("DISCONNECTED");
 			if (this.room) {
-				this.room.clients.delete(this.uuid);
-				this.room = null;
+
+				this.handleLeftRoom();
+
 			}
 			this.server.clients.delete(this.uuid);
 		} catch (e) {
@@ -159,21 +158,7 @@ export class Connection {
 	/**
 	 * @param {JSON} msg 
 	 */
-	handleCreateUser(msg) {
 
-		if (!this.usernameExists(msg.id, this.server.clients)) {
-			this.username = msg.id;
-			console.log(`Neuer Log-In: ${this.username}`);
-			const loginMsg = {
-				type: "login",
-				clientId: this.uuid,
-			}
-			this.send(loginMsg);
-			this.redirect("select");
-		}
-
-		else { this.alert("Nutzername ist bereits vergeben") }
-	}
 
 	/**
 	 * @param {JSON} msg 
@@ -226,6 +211,9 @@ export class Connection {
 			id: id,
 		});
 
+		console.log("Raum erstellt:" + id);
+		
+
 
 	}
 
@@ -233,37 +221,67 @@ export class Connection {
 	 * @param {JSON} msg 
 	 * @returns 
 	 */
-	handleLogin(msg) {
-		//Überprüfen ob der Raum, den der Nutzer beitreten will exisitiert und ob das Passwort richtig ist
-		if (!this.server.rooms.has(msg.roomToJoin)) {
-			this.alert("Der Raum existiert nicht!");
-			return;
-		}
-		else {
-			const room = this.server.rooms.get(msg.roomToJoin);
-			if (room.password !== msg.passwordOfRoom) {
-				this.alert(`Falsches Passwort für den Raum ${room.name}!`);
-				return;
-			}
-			else {
-
-				if (room.open === false) {
-
-					this.alert("Der Raum ist bereits gerade in einer Sitzung und nicht mehr offen");
-				}
 
 
-				else {
-					this.room = room;
-					this.room.clients.set(this.uuid, this);
-					this.redirect("room");
-					this.sendLoginInfo();
-					console.log(`Neuer Log-In: ${this.username} in Raum ${this.room.name}`);
-				}
-			}
+	handleLeftRoom() {
+
+		
+		//Entfernt den Nutzer aus der Nutzerliste des Raums
+		this.room.clients.delete(this.uuid);
+		let raum_id = this.room.id;
+		console.log("Der Nutzer '" + this.uuid + "' hat den Raum '" + raum_id + "' verlassen");
+		
+
+		//Wemm die Nutzerliste des Raums 0 ist
+		if (this.room.clients.size === 0) {		
+
+
+
+			//Raum aus der Raum-Liste des Servers löschen
+			this.server.rooms.delete(this.room.id);
+			console.log("Der Raum '" + raum_id +"' wurde gelöscht, da keine Nutzer mehr in ihm sind");
 
 		}
+
+		
+
+		//Setz die "In-welchem-Raum-ist-der-Nutzer"-Variable des Nutzers auf null
+		this.room = null;
+
+		
+
+
+		
+		
+		
 	}
+
+	handleJoinRoom(msg) {
+		let requested_id = msg.msg;
+
+
+		if (this.server.rooms.get(requested_id)) {
+
+
+			this.room = this.server.rooms.get(requested_id);
+			this.room.clients.set(this.uuid, this);
+
+			console.log("Der Nutzer: " + this.uuid + " wurde dem Raum: " + this.room.id + " hinzugefügt");
+			
+
+		}
+
+		else {
+
+			this.alert("Der Raum existiert nicht");
+			
+		}
+
+			
+
+	}
+
+
 
 	/**
 	 * @param {JSON} msg 
