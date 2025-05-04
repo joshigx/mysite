@@ -13,7 +13,7 @@
   let lobbyCode = $state("");
   let joinLobbyCode = $state("");
   let userList = $state([]);
-  let userName = $state("");
+  let username = $state("");
 
   //Hier können wir auf eingehende Nachrichten reagieren
   function message(e) {
@@ -26,14 +26,17 @@
         forwardToRoom: () => {
           lobbyCode = msg.id;
         },
-        setUserName: () => {
-          userName = msg.userName;
+        setUsername: () => {
+          username = msg.username;
         },
-        broadcastUserName: () => {
-          userList.push(msg.userName);
+        broadcastUsername: () => {
+          userList = msg.userList;
         },
         loadUserList: () => {
           userList = msg.userList;
+        },
+        redirect: () => {
+          pageStatus = msg.pageStatus
         },
       };
 
@@ -70,11 +73,11 @@
     pageStatus = 0;
     sendNachricht("leftRoom");
     lobbyCode = "";
+    username = "";
   }
 
   function joinRoom() {
     sendNachricht("joinRoom", joinLobbyCode);
-    pageStatus = 1;
   }
 </script>
 
@@ -92,10 +95,15 @@
     <button onclick={navMain}>Hauptmenü</button>
 
     <p>aktueller Raum: {lobbyCode}</p>
-    <p>dein Name: {userName}</p>
+    <p>dein Name: {username}</p>
     <p>wer ist mit im Raum: {userList}</p>
     <div>
-      <GameLobby {hash} {websocket} />
+
+      
+        
+      
+      <GameLobby {hash} {websocket} {username} />
+
     </div>
   {/if}
 

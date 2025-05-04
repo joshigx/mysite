@@ -9,7 +9,7 @@ export class Room {
 
 		
 		this.names = new Map();
-
+	
 		//hier sind alle antworten gespeichert
 		this.allAnswers = [];
 

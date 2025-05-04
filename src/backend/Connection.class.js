@@ -58,8 +58,8 @@ export class Connection {
 				case "joinRoom":
 					this.handleJoinRoom(msg);
 					break
-				case "getUserName":
-					this.handleGetUserName(msg);
+				case "getUsername":
+					this.handleGetUsername(msg);
 					break;
 
 				default:
@@ -214,6 +214,11 @@ export class Connection {
 			id: id,
 		});
 
+		this.room.broadcast({
+			type: "broadcastUsername",
+			userList: [...this.room.names.keys()],
+		});
+
 		console.log("Raum erstellt:" + id);
 
 
@@ -231,8 +236,27 @@ export class Connection {
 
 		//Entfernt den Nutzer aus der Nutzerliste des Raums
 		this.room.clients.delete(this.uuid);
+
+
+		console.log(this.username);
+		
+		this.room.names.delete(this.username);
+
+
+		this.username = undefined;
+
+		this.room.broadcast({
+			type: "broadcastUsername",
+			userList: [...this.room.names.keys()],
+		});
+
+
 		let raum_id = this.room.id;
 		console.log("Der Nutzer '" + this.uuid + "' hat den Raum '" + raum_id + "' verlassen");
+		this.send({
+			type: "setUsername",
+			usernme: "",
+		});
 
 
 		//Wemm die Nutzerliste des Raums 0 ist
@@ -275,6 +299,9 @@ export class Connection {
 			this.room = this.server.rooms.get(requested_id);
 			//Der Nutzer wird der Nutzerliste des Raumes hinzugefügt
 			this.room.clients.set(this.uuid, this);
+
+
+			//
 			let userList = [...this.room.names.keys()];
 
 
@@ -289,6 +316,10 @@ export class Connection {
 			 });
 
 			console.log("Der Nutzer: " + this.uuid + " wurde dem Raum: " + this.room.id + " hinzugefügt");
+			this.send({
+				type: "redirect",
+					pageStatus: 1 ,
+				 });
 
 
 
@@ -298,6 +329,10 @@ export class Connection {
 		else {
 
 			this.alert("Der Raum existiert nicht");
+			this.send({
+				type: "redirect",
+					pageStatus: 2 ,
+				 });
 
 		}
 
@@ -305,36 +340,36 @@ export class Connection {
 
 	}
 
-	handleGetUserName(msg) {
+	handleGetUsername(msg) {
 
-		let requestedUserName = msg.text;
+		//entfernt alle vorangehenden und nachfolgenden leerzeichen
+		let requestedUsername = msg.text.trim();
 
 
 
-		if (!(this.room.names.has(requestedUserName))) 
+		if (!(this.room.names.has(requestedUsername)) && (this.username === undefined) && !(requestedUsername === "")) 
 			{
 
-			this.room.names.set(requestedUserName, this.uuid);
-			this.userName = requestedUserName;
+			this.room.names.set(requestedUsername, this.uuid);
+			this.username = requestedUsername;
 
 			this.send({
-				type: "setUserName",
-				userName: requestedUserName,
+				type: "setUsername",
+				username: requestedUsername,
 			});
 
 
 			//Sendet den Namen an alle
 			this.room.broadcast({
-				type: "broadcastUserName",
-				userName: requestedUserName,
-				userRoom: this.room.id,
+				type: "broadcastUsername",
+				userList: [...this.room.names.keys()],
 			});
 
 
 		}
 
 		else {
-			this.alert("Nutzername schon vergeben");
+			this.alert("Nutzername ungültig. Nochmal probieren");
 		}
 
 
@@ -352,7 +387,7 @@ export class Connection {
 			return;
 		}
 
-		msg.userName = this.username;
+		msg.username = this.username;
 		this.room.broadcast(msg);
 	}
 
